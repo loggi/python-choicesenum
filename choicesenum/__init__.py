@@ -5,3 +5,7 @@
 __author__ = """Fernando Macedo"""
 __email__ = 'fgmacedo@gmail.com'
 __version__ = '0.1.0'
+
+__all__ = ('ChoicesEnum', )
+
+from .choicesenum import ChoicesEnum

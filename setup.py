@@ -12,7 +12,7 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    # TODO: put package requirements here
+    'enum34>=1.1.6',
 ]
 
 setup_requirements = [
@@ -22,7 +22,7 @@ setup_requirements = [
 setup(
     name='choicesenum',
     version='0.1.0',
-    description="Python's Enum with extra powers to play labels and choices fields",
+    description="Python's Enum with extra powers to play nice with labels and choices fields",
     long_description=readme + '\n\n' + history,
     author="Fernando Macedo",
     author_email='fgmacedo@gmail.com',
