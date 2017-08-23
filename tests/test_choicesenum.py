@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+import sys
 import pytest
 import pickle
 
@@ -8,7 +9,6 @@ from choicesenum import ChoicesEnum
 
 
 class Colors(ChoicesEnum):
-    _order_ = 'RED GREEN BLUE'
     RED = ('#f00', 'Vermelho')
     GREEN = ('#0f0', 'Verde')
     BLUE = ('#00f', 'Azul')
@@ -54,7 +54,7 @@ def test_get_choices(colors):
         ('#00f', 'Azul'),
     ]
 
-    assert list(colors.choices()) == expected
+    assert sorted(colors.choices(), key=lambda c: c[0].value) == sorted(expected)
 
 
 def test_dynamic_is_attr(colors):
@@ -82,9 +82,16 @@ def test_dynamic_is_attr_should_be_in_dir(colors, attr):
         assert attr in dir(colors.RED)
 
 
-def test_in_format(colors):
+@pytest.mark.skipif(sys.version_info < (3, 0), reason="requires python3")
+def test_in_format_python3(colors):
     assert '{}'.format(colors.RED) == "#f00"
     assert '{!r}'.format(colors.RED) == "<Colors.RED: '#f00'>"
+
+
+@pytest.mark.skipif(sys.version_info >= (3, 0), reason="requires python2")
+def test_in_format_python2(colors):
+    assert '{}'.format(colors.RED) == "#f00"
+    assert '{!r}'.format(colors.RED) == "<Colors.RED: u'#f00'>"
 
 
 def test_get_const_by_value(colors):
