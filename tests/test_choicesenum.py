@@ -57,6 +57,11 @@ def test_get_choices(colors):
     assert sorted(colors.choices(), key=lambda c: c[0].value) == sorted(expected)
 
 
+def test_options(colors):
+    expected = ['#f00', '#0f0', '#00f', ]
+    assert sorted(colors.options(), key=lambda c: c.value) == sorted(expected)
+
+
 def test_dynamic_is_attr(colors):
     assert colors.RED.is_red
     assert colors.GREEN.is_green

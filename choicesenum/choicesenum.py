@@ -52,3 +52,13 @@ class ChoicesEnum(Enum):
             cls (Enum): Enum class.
         """
         return [(x, x.display) for x in cls]
+
+    @classmethod
+    def options(cls):
+        """
+        Converts the enum options to a list.
+
+        Args:
+            cls (Enum): Enum class.
+        """
+        return list(cls)
