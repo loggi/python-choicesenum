@@ -55,32 +55,32 @@ Example of ``Colors``:
         GREEN = ('#0f0', 'Verde')
         BLUE = ('#00f', 'Azul')
 
-    assert colors.RED == '#f00'
-    assert colors.GREEN == '#0f0'
-    assert colors.BLUE == '#00f'
+    assert Colors.RED == '#f00'
+    assert Colors.GREEN == '#0f0'
+    assert Colors.BLUE == '#00f'
 
-    assert colors.RED == colors.RED
-    assert colors.GREEN == colors.GREEN
-    assert colors.BLUE == colors.BLUE
+    assert Colors.RED == Colors.RED
+    assert Colors.GREEN == Colors.GREEN
+    assert Colors.BLUE == Colors.BLUE
 
-    assert colors.RED.display == 'Vermelho'
-    assert colors.GREEN.display == 'Verde'
-    assert colors.BLUE.display == 'Azul'
+    assert Colors.RED.display == 'Vermelho'
+    assert Colors.GREEN.display == 'Verde'
+    assert Colors.BLUE.display == 'Azul'
 
     # choices
-    assert list(colors.choices()) == [
+    assert list(Colors.choices()) == [
         ('#f00', 'Vermelho'),
         ('#0f0', 'Verde'),
         ('#00f', 'Azul'),
     ]
 
     # dynamic `is_<enum_item>` attrs
-    assert colors.RED.is_red
-    assert colors.GREEN.is_green
-    assert colors.BLUE.is_blue
+    assert Colors.RED.is_red
+    assert Colors.GREEN.is_green
+    assert Colors.BLUE.is_blue
 
-    assert not colors.RED.is_blue
-    assert not colors.RED.is_green
+    assert not Colors.RED.is_blue
+    assert not Colors.RED.is_green
 
 
 Example of ``HttpStatuses``:
@@ -93,12 +93,12 @@ Example of ``HttpStatuses``:
         UNAUTHORIZED = 401
         FORBIDDEN = 403
 
-    assert http_statuses.OK == 200
-    assert http_statuses.BAD_REQUEST == 400
-    assert http_statuses.UNAUTHORIZED == 401
-    assert http_statuses.FORBIDDEN == 403
+    assert HttpStatuses.OK == 200
+    assert HttpStatuses.BAD_REQUEST == 400
+    assert HttpStatuses.UNAUTHORIZED == 401
+    assert HttpStatuses.FORBIDDEN == 403
 
-    assert http_statuses.OK.display == 'OK'
-    assert http_statuses.BAD_REQUEST.display == 'Bad request'  # <- nice!
-    assert http_statuses.UNAUTHORIZED.display == 'UNAUTHORIZED'
-    assert http_statuses.FORBIDDEN.display == 'FORBIDDEN'
+    assert HttpStatuses.OK.display == 'OK'
+    assert HttpStatuses.BAD_REQUEST.display == 'Bad request'  # <- nice!
+    assert HttpStatuses.UNAUTHORIZED.display == 'UNAUTHORIZED'
+    assert HttpStatuses.FORBIDDEN.display == 'FORBIDDEN'
