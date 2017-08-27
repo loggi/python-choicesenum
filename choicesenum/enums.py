@@ -35,7 +35,8 @@ class ChoicesEnum(Enum):
 
     @property
     def display(self):
-        return self._display_ if self._display_ is not None else self._name_
+        return self._display_ if self._display_ is not None else\
+            self._name_.replace('_', ' ').capitalize()
 
     @classmethod
     def _get_dynamic_property_names(cls):

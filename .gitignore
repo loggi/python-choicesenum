@@ -63,3 +63,4 @@ target/
 
 # Editors
 *.sublime-*
+.idea/

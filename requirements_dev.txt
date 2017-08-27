@@ -1,10 +1,7 @@
 # test
-pytest==3.2.1
-pytest-cov==2.5.1
-pytest-pep8==1.0.6
+-r requirements_test.txt
 pytest-django==3.1.2
-pytest-watch==4.1.0
-pytest-sugar==0.9.0
+Django==1.11.4
 tox==2.7.0
 
 # docs

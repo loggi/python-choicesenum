@@ -5,31 +5,6 @@ import sys
 import pytest
 import pickle
 
-from choicesenum import ChoicesEnum
-
-
-class Colors(ChoicesEnum):
-    RED = ('#f00', 'Vermelho')
-    GREEN = ('#0f0', 'Verde')
-    BLUE = ('#00f', 'Azul')
-
-
-class HttpStatuses(ChoicesEnum):
-    OK = 200
-    BAD_REQUEST = (400, 'Bad request')
-    UNAUTHORIZED = 401
-    FORBIDDEN = 403
-
-
-@pytest.fixture
-def colors():
-    return Colors
-
-
-@pytest.fixture
-def http_statuses():
-    return HttpStatuses
-
 
 def test_consts_equality(colors):
     assert colors.RED == '#f00'
@@ -90,13 +65,13 @@ def test_dynamic_is_attr_should_be_in_dir(colors, attr):
 @pytest.mark.skipif(sys.version_info < (3, 0), reason="requires python3")
 def test_in_format_python3(colors):
     assert '{}'.format(colors.RED) == "#f00"
-    assert '{!r}'.format(colors.RED) == "<Colors.RED: '#f00'>"
+    assert '{!r}'.format(colors.RED) == "<Color.RED: '#f00'>"
 
 
 @pytest.mark.skipif(sys.version_info >= (3, 0), reason="requires python2")
 def test_in_format_python2(colors):
     assert '{}'.format(colors.RED) == "#f00"
-    assert '{!r}'.format(colors.RED) == "<Colors.RED: u'#f00'>"
+    assert '{!r}'.format(colors.RED) == "<Color.RED: u'#f00'>"
 
 
 def test_get_const_by_value(colors):
@@ -108,11 +83,18 @@ def test_get_const_by_value(colors):
         colors('missing-value')
 
 
-def test_display_not_defined_should_be_the_name(http_statuses):
-    assert http_statuses.OK.display == 'OK'
-    assert http_statuses.BAD_REQUEST.display == 'Bad request'
-    assert http_statuses.UNAUTHORIZED.display == 'UNAUTHORIZED'
-    assert http_statuses.FORBIDDEN.display == 'FORBIDDEN'
+@pytest.mark.parametrize('enum_fixture, attr, display', [
+    ('colors', 'RED', 'Vermelho', ),
+    ('http_statuses', 'OK', 'Ok', ),
+    ('http_statuses', 'BAD_REQUEST', 'Bad request', ),
+    ('http_statuses', 'UNAUTHORIZED', 'Unauthorized', ),
+    ('http_statuses', 'FORBIDDEN', 'Forbidden', ),
+])
+def test_display_not_defined_should_be_the_name(
+        request, enum_fixture, attr, display):
+    enum = request.getfixturevalue(enum_fixture)
+    enum = getattr(enum, attr)
+    assert enum.display == display
 
 
 def test_consts_equality_for_numbers(http_statuses):
@@ -124,10 +106,12 @@ def test_consts_equality_for_numbers(http_statuses):
     assert http_statuses.OK == http_statuses.OK
 
 
-@pytest.mark.parametrize('expected', [Colors.RED, HttpStatuses.UNAUTHORIZED])
-def test_enum_should_be_serializable(expected):
-    data = pickle.dumps(expected)
+@pytest.mark.parametrize('expected', ['colors', 'http_statuses'])
+def test_enum_should_be_serializable(request, expected):
+    choicesenum = request.getfixturevalue(expected)
+    for item in choicesenum:
+        data = pickle.dumps(item)
 
-    value = pickle.loads(data)
-    assert value == expected
-    assert value.value == expected.value
+        value = pickle.loads(data)
+        assert value == item
+        assert value.value == item.value
