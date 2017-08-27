@@ -21,8 +21,8 @@ deploy:
   distributions: sdist bdist_wheel
   user: loggi
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: fsjgQkiB1CFs2sG1+18Fsp0mh1imHnSC2d3NtTfOa+JBbOdP289fwycEETdOCdDn4mUdlEW1ktMRogAT2t/nl7e9kyFVLou2qcJqHmAaSGvK0U8RAzgjhkw5Ynl9x/X9YMh7J4ILTH93kUMYmqCy+y8p8lt+srRGnadCY986BfAfrdR/9uevsMJOjhYicQNDjVsIpATIXeW54cJ4iuN2f3L3rR16Gc2ltTzVGTH2qSJX8gEr28bhL9AVbVugmq+OuLCsGQblNyWqwMItg/eRs6l9UdDU9k+xYZyekQLiNkJuQCcWbM7Xoh5htBa8lV2tpb+t4ARgD8lgF2WTcgkxhCUltKO59mzkUdVmVojMW37SL1nZoLE7Bg8bVQWksBjrww72AdKqfEu+qU3HRUN69ZTOJtziYH73OB89l4PD2/4Ve3ySbkNNtJfG+vBlO9jMECSfjLpipLRBt0PVgCJTsyMT23doHZWxq2ut1RVY/ilNt5V/xLp/A6TdH7pC+/beIXdSXHEMHwo/YdPW//3IgBsJPv8zYiJqDO7LSnZKb9/x4EgS+mfMSrN5FwUmuyEH9/UqOOkUiByyPNucBvtxlgHuCPgs4P8etyhZIVmUznlpsdeNalcyDPb1mkJE6N6bWtvTcffT6+xfhKVAVFteQ2tlF5zoVBx1PJoVOyDq06o=
   on:
     tags: true
-    repo: loggi/choicesenum
+    repo: loggi/python-choicesenum
     python: 2.7
