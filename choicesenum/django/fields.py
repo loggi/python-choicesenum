@@ -88,8 +88,10 @@ class EnumFieldMixin(object):
 
     def deconstruct(self):
         name, path, args, kwargs = super(EnumFieldMixin, self).deconstruct()
-        if 'enum' in kwargs:
-            del kwargs["enum"]
+        if self.enum:
+            kwargs["enum"] = self.enum
+            if 'choices' in kwargs:
+                del kwargs["choices"]
         return name, path, args, kwargs
 
 
