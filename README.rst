@@ -121,13 +121,13 @@ Usage with the custom Django fields:
     assert instance.color.value == Colors.GREEN.value
     assert instance.color.display == Colors.GREEN.display
 
-    # the field value is allways a `ChoicesEnum` item
+    # the field value is always a `ChoicesEnum` item...
     instance.color = '#f00'
-    assert instance.color.display == 'Vermelho'
-    assert instance.color.value == '#f00'
-
-    # and still can be used where the value is needed
     assert instance.color == '#f00'
+    assert instance.color.value == '#f00'
+    assert instance.color.display == 'Vermelho'
+
+    # ...and can be used whenever the value is needed
     assert u'Currrent color is {0} ({0.display})'.format(instance.color) ==\
            u'Currrent color is #f00 (Vermelho)'
 
@@ -136,6 +136,8 @@ in use, so if your field allow `null`, your enum should also:
 
 .. code:: python
 
+    from django.db import models
+    from choicesenum import ChoicesEnum
     from choicesenum.django.fields import EnumIntegerField
 
     class UserStatus(ChoicesEnum):
@@ -154,3 +156,7 @@ in use, so if your field allow `null`, your enum should also:
     assert instance.status.value is None
     assert instance.status == UserStatus.UNDEFINED
     assert instance.status.display == 'Undefined'
+
+    # again...
+    instance.status = None
+    assert instance.status.is_undefined is True
