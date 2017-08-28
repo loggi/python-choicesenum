@@ -6,7 +6,7 @@ Choices Enum
 .. image:: https://img.shields.io/pypi/v/python-choicesenum.svg
         :target: https://pypi.python.org/pypi/python-choicesenum
 
-.. image:: https://img.shields.io/travis/loggi/python-choicesenum.svg
+.. image:: https://travis-ci.org/loggi/python-choicesenum.svg?branch=master
         :target: https://travis-ci.org/loggi/python-choicesenum
 
 .. image:: https://readthedocs.org/projects/python-choicesenum/badge/?version=latest
