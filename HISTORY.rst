@@ -2,6 +2,11 @@
 History
 =======
 
+0.1.3 (2017-08-28)
+------------------
+
+* Fix sdist not including sub-modules (django contrib).
+
 0.1.2 (2017-08-27)
 ------------------
 
