@@ -3,8 +3,8 @@ Choices Enum
 ============
 
 
-.. image:: https://img.shields.io/pypi/v/python-choicesenum.svg
-        :target: https://pypi.python.org/pypi/python-choicesenum
+.. image:: https://img.shields.io/pypi/v/choicesenum.svg
+        :target: https://pypi.python.org/pypi/choicesenum
 
 .. image:: https://travis-ci.org/loggi/python-choicesenum.svg?branch=master
         :target: https://travis-ci.org/loggi/python-choicesenum
@@ -13,14 +13,8 @@ Choices Enum
         :target: https://python-choicesenum.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/loggi/python-choicesenum/shield.svg
-     :target: https://pyup.io/repos/github/loggi/python-choicesenum/
-     :alt: Updates
-
 
 Python's Enum with extra powers to play nice with labels and choices fields.
-
-Work in progress.
 
 * Free software: BSD license
 * Documentation: https://python-choicesenum.readthedocs.io.
@@ -38,9 +32,32 @@ Features
 
 * An ``ChoicesEnum`` that can be used to create constant groups.
 * ``ChoicesEnum`` can define labels to be used in `choices` fields.
+* Django fields included:  ``EnumCharField`` and ``EnumIntegerField``.
+
 
 Usage examples
 --------------
+
+Example of ``HttpStatuses``:
+
+.. code:: python
+
+    class HttpStatuses(ChoicesEnum):
+        OK = 200
+        BAD_REQUEST = 400
+        UNAUTHORIZED = 401
+        FORBIDDEN = 403
+
+    assert HttpStatuses.OK == 200
+    assert HttpStatuses.BAD_REQUEST == 400
+    assert HttpStatuses.UNAUTHORIZED == 401
+    assert HttpStatuses.FORBIDDEN == 403
+
+    assert HttpStatuses.OK.display == 'Ok'
+    assert HttpStatuses.BAD_REQUEST.display == 'Bad request'  # <- nice!
+    assert HttpStatuses.UNAUTHORIZED.display == 'Unauthorized'
+    assert HttpStatuses.FORBIDDEN.display == 'Forbidden'
+
 
 Example of ``Colors``:
 
@@ -51,9 +68,10 @@ Example of ``Colors``:
     class Colors(ChoicesEnum):
         # For fixed order in  py2.7, py3.4+ are ordered by default
         _order_ = 'RED GREEN BLUE'
-        RED = ('#f00', 'Vermelho')
-        GREEN = ('#0f0', 'Verde')
-        BLUE = ('#00f', 'Azul')
+
+        RED = '#f00', 'Vermelho'
+        GREEN = '#0f0', 'Verde'
+        BLUE = '#00f', 'Azul'
 
     assert Colors.RED == '#f00'
     assert Colors.GREEN == '#0f0'
@@ -83,22 +101,53 @@ Example of ``Colors``:
     assert not Colors.RED.is_green
 
 
-Example of ``HttpStatuses``:
+Using with django fields::
 
-.. code:: python
+    from django.db import models
+    from choicesenum.django.fields import EnumCharField
 
-    class HttpStatuses(ChoicesEnum):
-        OK = 200
-        BAD_REQUEST = (400, 'Bad request')
-        UNAUTHORIZED = 401
-        FORBIDDEN = 403
+    class ColorModel(models.Model):
+        color = EnumCharField(
+            max_length=100,
+            enum=Colors,
+            default=Colors.GREEN,
+        )
 
-    assert HttpStatuses.OK == 200
-    assert HttpStatuses.BAD_REQUEST == 400
-    assert HttpStatuses.UNAUTHORIZED == 401
-    assert HttpStatuses.FORBIDDEN == 403
+    instance = ColorModel()
+    assert instance.color ==  Colors.GREEN
+    assert instance.color.is_green is True
+    assert instance.color.value == Colors.GREEN.value
+    assert instance.color.display == Colors.GREEN.display
 
-    assert HttpStatuses.OK.display == 'OK'
-    assert HttpStatuses.BAD_REQUEST.display == 'Bad request'  # <- nice!
-    assert HttpStatuses.UNAUTHORIZED.display == 'UNAUTHORIZED'
-    assert HttpStatuses.FORBIDDEN.display == 'FORBIDDEN'
+    # the field value is allways an ``ChoicesEnum`` item
+    instance.color ==  '#f00'
+    assert instance.color.display == 'Vermelho'
+    assert instance.color.value == '#f00'
+
+    # and still can be used where the value is needed
+    assert instance.color == '#f00'
+    assert u'Currrent color is {0} ({0.display})'.format(instance.color) ==\
+        u'Currrent color is #f00 (Vermelho)'
+
+Pay attention that the field will only accept valid values for the ``Enum``
+in use, so if your field allow `null`, your enum should also::
+
+
+    from choicesenum.django.fields import EnumIntegerField
+
+    class UserStatus(ChoicesEnum):
+        UNDEFINED = None
+        PENDING = 1
+        ACTIVE = 2
+        INACTIVE = 3
+        DELETED = 4
+
+
+    class User(models.Model):
+        status = EnumIntegerField(enum=UserStatus, null=True, )
+
+    instance = User()
+    assert instance.status.is_undefined is True
+    assert instance.status.value is None
+    assert instance.status == UserStatus.UNDEFINED
+    assert instance.status.display == 'Undefined'
