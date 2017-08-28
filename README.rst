@@ -122,7 +122,7 @@ Usage with the custom Django fields:
     assert instance.color.display == Colors.GREEN.display
 
     # the field value is allways a `ChoicesEnum` item
-    instance.color ==  '#f00'
+    instance.color = '#f00'
     assert instance.color.display == 'Vermelho'
     assert instance.color.value == '#f00'
 
