@@ -26,7 +26,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Fernando Macedo",
     author_email='fgmacedo@gmail.com',
-    url='https://github.com/loggi/choicesenum',
+    url='https://github.com/loggi/python-choicesenum',
     packages=find_packages(include=['choicesenum']),
     include_package_data=True,
     install_requires=requirements,
