@@ -2,7 +2,7 @@
 History
 =======
 
-0.1.1 (2017-08-27)
+0.1.2 (2017-08-27)
 ------------------
 
 * README fixes and improvements.

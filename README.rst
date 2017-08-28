@@ -101,7 +101,9 @@ Example of ``Colors``:
     assert not Colors.RED.is_green
 
 
-Using with django fields::
+Usage with the custom Django fields:
+
+.. code:: python
 
     from django.db import models
     from choicesenum.django.fields import EnumCharField
@@ -119,7 +121,7 @@ Using with django fields::
     assert instance.color.value == Colors.GREEN.value
     assert instance.color.display == Colors.GREEN.display
 
-    # the field value is allways an ``ChoicesEnum`` item
+    # the field value is allways a `ChoicesEnum` item
     instance.color ==  '#f00'
     assert instance.color.display == 'Vermelho'
     assert instance.color.value == '#f00'
@@ -127,11 +129,12 @@ Using with django fields::
     # and still can be used where the value is needed
     assert instance.color == '#f00'
     assert u'Currrent color is {0} ({0.display})'.format(instance.color) ==\
-        u'Currrent color is #f00 (Vermelho)'
+           u'Currrent color is #f00 (Vermelho)'
 
 Pay attention that the field will only accept valid values for the ``Enum``
-in use, so if your field allow `null`, your enum should also::
+in use, so if your field allow `null`, your enum should also:
 
+.. code:: python
 
     from choicesenum.django.fields import EnumIntegerField
 
