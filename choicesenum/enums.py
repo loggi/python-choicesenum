@@ -41,6 +41,14 @@ class ChoicesEnum(Enum):
         return self._display_ if self._display_ is not None else\
             self._name_.replace('_', ' ').capitalize()
 
+    @property
+    def description(self):
+        """
+        Alias for `label`, allow enum descriptors to be used by Graphene.
+        See: http://docs.graphene-python.org/en/latest/types/enums/#usage-with-python-enums
+        """
+        return self.display
+
     @classmethod
     def _get_dynamic_property_names(cls):
         """
