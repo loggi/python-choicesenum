@@ -103,6 +103,21 @@ def test_string_field_should_allow_assigning_values(color):
     assert instance2.color.display == enum_color.display
 
 
+@pytest.mark.skipif(django.VERSION[:2] > (1, 6), reason="requires Django 1.6 for south")
+def test_south_deconstruct_support(field_cls, enum_for_field_cls):
+    default_enum = enum_for_field_cls.options()[0]
+    field = field_cls(
+        enum=enum_for_field_cls,
+        default=default_enum,
+    )
+    assert field.south_field_triple() == (
+        'choicesenum.django.fields.{}'.format(field_cls.__name__),
+        [],
+        {'default': repr(default_enum.value)},
+    )
+    # field_type
+
+
 # TODO: Attempt to turn field check tests compatible with Django 1.7
 @pytest.mark.skipif(django.VERSION[:2] < (1, 8), reason="requires Django 1.7+ for field.check()")
 class TestFieldChecks(object):

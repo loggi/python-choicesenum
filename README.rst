@@ -33,12 +33,13 @@ Features
 * An ``ChoicesEnum`` that can be used to create constant groups.
 * ``ChoicesEnum`` can define labels to be used in `choices` fields.
 * Django fields included:  ``EnumCharField`` and ``EnumIntegerField``.
-
+* Support (tested) for Python 2.7, 3.4, 3.5 and 3.6.
+* Support (tested) for Django 1.6.1 (with south), 1.7, 1.8, 1.9, 1.10 and 1.11.
 
 Usage examples
 --------------
 
-Example of ``HttpStatuses``:
+Example with ``HttpStatuses``:
 
 .. code:: python
 
@@ -48,18 +49,44 @@ Example of ``HttpStatuses``:
         UNAUTHORIZED = 401
         FORBIDDEN = 403
 
+All `Enum` types can be compared against their values:
+
+.. code:: python
+
     assert HttpStatuses.OK == 200
     assert HttpStatuses.BAD_REQUEST == 400
     assert HttpStatuses.UNAUTHORIZED == 401
     assert HttpStatuses.FORBIDDEN == 403
 
+All `Enum` types have by default a `display` derived from the enum identifier:
+
+.. code:: python
+
     assert HttpStatuses.OK.display == 'Ok'
-    assert HttpStatuses.BAD_REQUEST.display == 'Bad request'  # <- nice!
+    assert HttpStatuses.BAD_REQUEST.display == 'Bad request'
     assert HttpStatuses.UNAUTHORIZED.display == 'Unauthorized'
     assert HttpStatuses.FORBIDDEN.display == 'Forbidden'
 
 
-Example of ``Colors``:
+You can easily define your own custom display for an `Enum` item using a tuple:
+
+
+.. code:: python
+
+    class HttpStatuses(ChoicesEnum):
+        OK = 200, 'Everything is fine'
+        BAD_REQUEST = 400, 'You did a mistake'
+        UNAUTHORIZED = 401, 'I know your IP'
+        FORBIDDEN = 403
+
+    assert HttpStatuses.OK.display == 'Everything is fine'
+    assert HttpStatuses.BAD_REQUEST.display == 'You did a mistake'
+    assert HttpStatuses.UNAUTHORIZED.display == 'I know your IP'
+    assert HttpStatuses.FORBIDDEN.display == 'Forbidden'
+
+
+
+Example with ``Colors``:
 
 .. code:: python
 
@@ -77,13 +104,14 @@ Example of ``Colors``:
     assert Colors.GREEN == '#0f0'
     assert Colors.BLUE == '#00f'
 
-    assert Colors.RED == Colors.RED
-    assert Colors.GREEN == Colors.GREEN
-    assert Colors.BLUE == Colors.BLUE
-
     assert Colors.RED.display == 'Vermelho'
     assert Colors.GREEN.display == 'Verde'
     assert Colors.BLUE.display == 'Azul'
+
+
+Use ``.choices()`` method to receive a list of tuples ``(item, display)``:
+
+.. code:: python
 
     # choices
     assert list(Colors.choices()) == [
@@ -92,13 +120,26 @@ Example of ``Colors``:
         ('#00f', 'Azul'),
     ]
 
-    # dynamic `is_<enum_item>` attrs
-    assert Colors.RED.is_red
-    assert Colors.GREEN.is_green
-    assert Colors.BLUE.is_blue
 
-    assert not Colors.RED.is_blue
-    assert not Colors.RED.is_green
+For each enum item, a dynamic property ``is_<enum_item>`` is generated to allow
+quick boolean checks:
+
+.. code:: python
+
+    color = Colors.RED
+    assert color.is_red
+    assert not color.is_blue
+    assert not color.is_green
+
+    if color.is_red:
+        print 'Is red!'
+
+The enum item can be used whenever the value is needed:
+
+.. code:: python
+
+    assert u'Currrent color is {c} ({c.display})'.format(c=color) ==\
+           u'Currrent color is #f00 (Vermelho)'
 
 
 Usage with the custom Django fields:
@@ -118,21 +159,18 @@ Usage with the custom Django fields:
     instance = ColorModel()
     assert instance.color ==  Colors.GREEN
     assert instance.color.is_green is True
-    assert instance.color.value == Colors.GREEN.value
+    assert instance.color.value == Colors.GREEN.value == '#0f0'
     assert instance.color.display == Colors.GREEN.display
 
-    # the field value is always a `ChoicesEnum` item...
     instance.color = '#f00'
     assert instance.color == '#f00'
     assert instance.color.value == '#f00'
     assert instance.color.display == 'Vermelho'
 
-    # ...and can be used whenever the value is needed
-    assert u'Currrent color is {0} ({0.display})'.format(instance.color) ==\
-           u'Currrent color is #f00 (Vermelho)'
 
-Pay attention that the field will only accept valid values for the ``Enum``
-in use, so if your field allow `null`, your enum should also:
+Is guaranteed that the field value is *always* a `ChoicesEnum` item. Pay
+attention that the field will only accept valid values for the ``Enum`` in use,
+so if your field allow `null`, your enum should also:
 
 .. code:: python
 

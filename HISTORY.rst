@@ -2,6 +2,13 @@
 History
 =======
 
+0.1.4 (2017-08-28)
+------------------
+
+* Fix South migrations for Django 1.6.
+* ``ChoicesEnum`` repr can be used to reconstruct an instance (``item == eval(repr(item))``).
+
+
 0.1.3 (2017-08-28)
 ------------------
 

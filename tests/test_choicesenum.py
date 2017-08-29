@@ -65,13 +65,26 @@ def test_dynamic_is_attr_should_be_in_dir(colors, attr):
 @pytest.mark.skipif(sys.version_info < (3, 0), reason="requires python3")
 def test_in_format_python3(colors):
     assert '{}'.format(colors.RED) == "#f00"
-    assert '{!r}'.format(colors.RED) == "<Color.RED: '#f00'>"
+    assert '{!r}'.format(colors.RED) == "Color('#f00').RED"
 
 
 @pytest.mark.skipif(sys.version_info >= (3, 0), reason="requires python2")
 def test_in_format_python2(colors):
     assert '{}'.format(colors.RED) == "#f00"
-    assert '{!r}'.format(colors.RED) == "<Color.RED: u'#f00'>"
+    assert '{!r}'.format(colors.RED) == "Color(u'#f00').RED"
+
+
+@pytest.mark.skipif(
+    sys.version_info[:2] == (3, 4),
+    reason="Python 3.4 implementation don't allow access item from a item, eg. Color.RED.GREEN"
+)
+def test_should_reconstruct_instance_from_repr():
+    from tests.app.enums import Color
+    red_repr = repr(Color.RED)
+    print(red_repr)
+    red_from_repr = eval(red_repr)
+    assert red_from_repr is Color.RED
+    assert red_from_repr == Color.RED
 
 
 def test_get_const_by_value(colors):
