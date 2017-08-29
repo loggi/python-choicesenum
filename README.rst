@@ -198,3 +198,11 @@ so if your field allow `null`, your enum should also:
     # again...
     instance.status = None
     assert instance.status.is_undefined is True
+
+Usage with Graphene_ Enums:
+
+.. _Graphene: http://docs.graphene-python.org/en/latest/types/enums/#usage-with-python-enums
+
+.. code:: python
+
+    UserStatusEnum = graphene.Enum.from_enum(UserStatus)
