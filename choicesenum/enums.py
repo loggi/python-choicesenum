@@ -25,10 +25,6 @@ class ChoicesEnum(Enum):
     def __repr__(self):
         return "%s(%r).%s" % (self.__class__.__name__, self._value_, self._name_, )
 
-    @property
-    def pytest_id(self):
-        return "%s.%s" % (self.__class__.__name__, self._name_, )
-
     def __eq__(self, other):
         return self.value == getattr(other, 'value', other)
 
