@@ -1,7 +1,25 @@
+import pytest
 
+from choicesenum import ChoicesEnum
+
+
+def django_16():
+    try:
+        import django
+        return django.VERSION[:2] == (1, 6)
+    except:
+        return False
+
+
+class Color(ChoicesEnum):
+    RED = '#f00', 'Vermelho'
+    GREEN = '#0f0', 'Verde'
+    BLUE = '#00f', 'Azul'
+
+
+@pytest.mark.skipif(
+    django_16(), reason="Django 1.6 requires a pytest-django that crashes on tearddown")
 def test_pytest_make_parametrize_id(testdir):
-    testdir.makeconftest("")
-
     testdir.makepyfile("""
         import pytest
         from choicesenum import ChoicesEnum
@@ -24,8 +42,13 @@ def test_pytest_make_parametrize_id(testdir):
     """)
     result = testdir.runpytest('-v')
 
-    result.stdout.fnmatch_lines([
+    result.stdout.fnmatch_lines_random([
         "*test_param_repr[Color.RED*",
         "*test_param_repr[Color.GREEN*",
         "*test_param_repr[Color.BLUE*",
     ])
+
+
+@pytest.mark.parametrize('color', Color)
+def test_pytest_using_enum_as_fixture(color):
+    assert color == color.value
