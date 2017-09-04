@@ -9,7 +9,7 @@ def test_pytest_make_parametrize_id(testdir):
         @pytest.fixture
         def django_test_environment():
             # To hide the error:
-            "RuntimeError: setup_test_environment() was already called and" 
+            "RuntimeError: setup_test_environment() was already called and"
             "can't be called again without first calling teardown_test_environment()"
             pass
 
