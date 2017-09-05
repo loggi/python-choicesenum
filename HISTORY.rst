@@ -2,7 +2,7 @@
 History
 =======
 
-0.1.5 (not release yet)
+0.1.5 (2017-09-05)
 ------------------
 
 * +ChoicesEnum.description: Alias for `label`, allow enum descriptors to be used by Graphene.
