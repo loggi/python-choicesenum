@@ -182,3 +182,22 @@ class TestCompatModule(object):
         instance.duplicator = 7
         # then
         assert instance.duplicator == 14
+
+
+@pytest.mark.django_db
+def test_integer_field_should_allow_filters():
+    # given
+    from tests.app.models import User, UserStatus
+
+    # when
+    instance = User()
+    instance.status = UserStatus.ACTIVE
+    instance.save()
+
+    User.objects.create(status=UserStatus.INACTIVE)
+
+    # then
+    assert instance.status.value == UserStatus.ACTIVE
+
+    instance2 = User.objects.filter(status=UserStatus.ACTIVE).first()
+    assert instance.pk == instance2.pk

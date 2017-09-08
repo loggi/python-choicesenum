@@ -28,6 +28,12 @@ class ChoicesEnum(Enum):
     def __eq__(self, other):
         return self.value == getattr(other, 'value', other)
 
+    def __len__(self):
+        try:
+            return len(self.value)
+        except:
+            return 1
+
     def __dir__(self):
         return sorted(set(
             dir(type(self)) +

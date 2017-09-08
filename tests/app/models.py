@@ -2,9 +2,9 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.db import models
-from choicesenum.django.fields import EnumCharField
+from choicesenum.django.fields import EnumCharField, EnumIntegerField
 
-from .enums import Color
+from .enums import Color, UserStatus
 
 
 class ColorModel(models.Model):
@@ -13,3 +13,8 @@ class ColorModel(models.Model):
         enum=Color,
         default=Color.GREEN,
     )
+
+
+class User(models.Model):
+    username = models.CharField(max_length=50)
+    status = EnumIntegerField(enum=UserStatus, null=True)

@@ -74,6 +74,10 @@ def test_in_format_python2(colors):
     assert '{!r}'.format(colors.RED) == "Color(u'#f00').RED"
 
 
+def test_should_proxy_len_calls(colors):
+    assert len(colors.RED) == len(colors.RED.value) == len('#f00') == 4
+
+
 @pytest.mark.skipif(
     sys.version_info[:2] == (3, 4),
     reason="Python 3.4 implementation don't allow access item from a item, eg. Color.RED.GREEN"
