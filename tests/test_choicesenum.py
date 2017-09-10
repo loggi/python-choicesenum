@@ -132,3 +132,15 @@ def test_enum_should_be_serializable(request, expected):
         value = pickle.loads(data)
         assert value == item
         assert value.value == item.value
+
+
+def test_enum_should_be_hashable():
+    from choicesenum import ChoicesEnum
+
+    class Baz(ChoicesEnum):
+        A = 1
+        B = 2
+        C = 3
+
+    assert hash(Baz.A) != hash(Baz.B)
+    assert set(Baz) == set(Baz)

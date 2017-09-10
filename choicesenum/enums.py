@@ -34,6 +34,9 @@ class ChoicesEnum(Enum):
         except:
             return 1
 
+    def __hash__(self):
+        return hash(self._name_)
+
     def __dir__(self):
         return sorted(set(
             dir(type(self)) +
