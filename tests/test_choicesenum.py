@@ -142,5 +142,8 @@ def test_enum_should_be_hashable():
         B = 2
         C = 3
 
+    d = {Baz.A: 'foo', Baz.B: 'bar'}
+
     assert hash(Baz.A) != hash(Baz.B)
     assert set(Baz) == set(Baz)
+    assert d[Baz.B] == 'bar'
