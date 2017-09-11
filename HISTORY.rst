@@ -2,6 +2,12 @@
 History
 =======
 
+0.2.0 (2017-09-11)
+------------------
+
+* ``ChoicesEnum`` items are comparable by their values (==, !=, >, >=, <, <=) (thanks @jodal).
+* +``ChoicesEnum.values``: Returns all the Enum's raw values (eq: ``[x.value for x in Enum]``).
+
 0.1.7 (2017-09-10)
 ------------------
 
