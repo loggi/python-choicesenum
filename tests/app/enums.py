@@ -24,6 +24,10 @@ class HttpStatus(ChoicesEnum):
     UNAUTHORIZED = 401
     FORBIDDEN = 403
 
+    @property
+    def is_error(self):
+        return self >= self.BAD_REQUEST
+
 
 class Sizes(ChoicesEnum):
     EMPTY = None

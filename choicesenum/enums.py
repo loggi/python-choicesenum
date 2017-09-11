@@ -25,8 +25,9 @@ class ChoicesEnum(Enum):
     def __repr__(self):
         return "%s(%r).%s" % (self.__class__.__name__, self._value_, self._name_, )
 
-    def __eq__(self, other):
-        return self.value == getattr(other, 'value', other)
+    @staticmethod
+    def _get_value(item):
+        return getattr(item, 'value', item)
 
     def __len__(self):
         try:
@@ -36,6 +37,24 @@ class ChoicesEnum(Enum):
 
     def __hash__(self):
         return hash(self._name_)
+
+    def __lt__(self, other):
+        return self.value < self._get_value(other)
+
+    def __le__(self, other):
+        return self.value <= self._get_value(other)
+
+    def __eq__(self, other):
+        return self.value == self._get_value(other)
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __gt__(self, other):
+        return self.value > self._get_value(other)
+
+    def __ge__(self, other):
+        return self.value >= self._get_value(other)
 
     def __dir__(self):
         return sorted(set(
@@ -73,6 +92,14 @@ class ChoicesEnum(Enum):
             cls (Enum): Enum class.
         """
         return [(x, x.display) for x in cls]
+
+    @classmethod
+    def values(cls):
+        """
+        Args:
+            cls (Enum): Enum class.
+        """
+        return [x.value for x in cls]
 
     @classmethod
     def options(cls):

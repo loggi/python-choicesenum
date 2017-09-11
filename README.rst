@@ -58,6 +58,10 @@ All `Enum` types can be compared against their values:
     assert HttpStatuses.UNAUTHORIZED == 401
     assert HttpStatuses.FORBIDDEN == 403
 
+    status_code = HttpStatuses.OK
+    assert 200 <= status_code <= 300
+
+
 All `Enum` types have by default a `display` derived from the enum identifier:
 
 .. code:: python
@@ -84,6 +88,25 @@ You can easily define your own custom display for an `Enum` item using a tuple:
     assert HttpStatuses.UNAUTHORIZED.display == 'I know your IP'
     assert HttpStatuses.FORBIDDEN.display == 'Forbidden'
 
+
+You can declare custom properties and methods:
+
+
+.. code:: python
+
+    class HttpStatuses(ChoicesEnum):
+        OK = 200, 'Everything is fine'
+        BAD_REQUEST = 400, 'You did a mistake'
+        UNAUTHORIZED = 401, 'I know your IP'
+        FORBIDDEN = 403
+
+        @property
+        def is_error(self):
+            return self >= self.BAD_REQUEST
+
+    assert HttpStatuses.OK.is_error is False
+    assert HttpStatuses.BAD_REQUEST.is_error is True
+    assert HttpStatuses.UNAUTHORIZED.is_error is True
 
 
 Example with ``Colors``:

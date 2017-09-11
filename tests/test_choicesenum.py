@@ -2,6 +2,8 @@
 from __future__ import absolute_import, unicode_literals
 
 import sys
+import operator
+
 import pytest
 import pickle
 
@@ -22,6 +24,10 @@ def test_consts_display(colors):
     assert colors.BLUE.display == 'Azul'
 
 
+def test_consts_display_alias_to_description(colors):
+    assert colors.RED.display == colors.RED.description == 'Vermelho'
+
+
 def test_get_choices(colors):
     expected = [
         ('#f00', 'Vermelho'),
@@ -35,6 +41,11 @@ def test_get_choices(colors):
 def test_options(colors):
     expected = ['#f00', '#0f0', '#00f', ]
     assert sorted(colors.options(), key=lambda c: c.value) == sorted(expected)
+
+
+def test_values(colors):
+    expected = ['#f00', '#0f0', '#00f', ]
+    assert sorted(colors.values()) == sorted(expected)
 
 
 def test_dynamic_is_attr(colors):
@@ -76,6 +87,10 @@ def test_in_format_python2(colors):
 
 def test_should_proxy_len_calls(colors):
     assert len(colors.RED) == len(colors.RED.value) == len('#f00') == 4
+
+
+def test_should_return_1_when_proxy_len_calls_fail(http_statuses):
+    assert len(http_statuses.OK) == len(http_statuses.BAD_REQUEST) == 1
 
 
 @pytest.mark.skipif(
@@ -147,3 +162,84 @@ def test_enum_should_be_hashable():
     assert hash(Baz.A) != hash(Baz.B)
     assert set(Baz) == set(Baz)
     assert d[Baz.B] == 'bar'
+
+
+def test_enum_should_be_sortable():
+    from choicesenum import ChoicesEnum
+
+    class Baz(ChoicesEnum):
+        A = 3
+        B = 5
+        C = 1
+
+    assert sorted(Baz) == [Baz.C, Baz.A, Baz.B]
+
+
+@pytest.mark.parametrize('enum_fixture, left, operator_name, right, expected', [
+    # lt
+    ('http_statuses', 'BAD_REQUEST', '<', 'UNAUTHORIZED', True),
+    ('http_statuses', 'BAD_REQUEST', '<', 400, False),
+    ('colors', 'GREEN', '<', 'RED', True),
+    ('colors', 'GREEN', '<', '#f00', True),
+    # le
+    ('http_statuses', 'BAD_REQUEST', '<=', 'UNAUTHORIZED', True),
+    ('http_statuses', 'BAD_REQUEST', '<=', 'BAD_REQUEST', True),
+    ('http_statuses', 'BAD_REQUEST', '<=', 400, True),
+    ('http_statuses', 400, '<=', 'BAD_REQUEST', True),
+    ('http_statuses', 'BAD_REQUEST', '<=', 399, False),
+    # eq
+    ('http_statuses', 'UNAUTHORIZED', '==', 'UNAUTHORIZED', True),
+    ('http_statuses', 'UNAUTHORIZED', '==', 401, True),
+    ('http_statuses', 'OK', '==', 201, False),
+    ('http_statuses', 401, '==', 'UNAUTHORIZED', True),
+    # ne
+    ('http_statuses', 'UNAUTHORIZED', '!=', 400, True),
+    ('http_statuses', 'UNAUTHORIZED', '!=', 'BAD_REQUEST', True),
+    # gt
+    ('http_statuses', 'UNAUTHORIZED', '>', 'BAD_REQUEST', True),
+    ('http_statuses', 'FORBIDDEN', '>', 'UNAUTHORIZED', True),
+    ('http_statuses', 'FORBIDDEN', '>', 401, True),
+    ('http_statuses', 'FORBIDDEN', '>', 404, False),
+    ('http_statuses', 404, '>', 'FORBIDDEN', True),
+    # ge
+    ('http_statuses', 'UNAUTHORIZED', '>=', 400, True),
+    ('http_statuses', 'UNAUTHORIZED', '>=', 401, True),
+    ('http_statuses', 401, '>=', 'UNAUTHORIZED', True),
+    ('http_statuses', 402, '>=', 'UNAUTHORIZED', True),
+])
+def test_enum_should_be_comparable(request, enum_fixture, left, operator_name, right, expected):
+    enum = request.getfixturevalue(enum_fixture)
+    left_item = getattr(enum, str(left), left)
+    right_item = getattr(enum, str(right), right)
+
+    operators = {
+        '==': operator.eq,
+        '!=': operator.ne,
+        '>': operator.gt,
+        '>=': operator.ge,
+        '<': operator.lt,
+        '<=': operator.le,
+    }
+    op = operators[operator_name]
+
+    assert op(left_item, right_item) == expected
+
+
+def test_integer_enum_should_be_comparable(http_statuses):
+    assert 200 <= http_statuses.OK <= 300
+
+
+@pytest.mark.skipif(
+    sys.version_info[:2] == (3, 4),
+    reason="Python 3.4 implementation don't allow custom properties"
+)
+@pytest.mark.parametrize('enum_fixture, attr, property, expected', [
+    ('http_statuses', 'OK', 'is_error', False),
+    ('http_statuses', 'BAD_REQUEST', 'is_error', True),
+])
+def test_custom_properties(request, enum_fixture, attr, property, expected):
+    enum = request.getfixturevalue(enum_fixture)
+    enum_item = getattr(enum, attr)
+    prop_value = getattr(enum_item, property)
+
+    assert prop_value == expected
