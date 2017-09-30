@@ -5,6 +5,11 @@ from __future__ import absolute_import, unicode_literals
 from django.core import checks
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.utils import six
+try:
+    from django.utils.module_loading import import_string
+except ImportError:  # pragma: no cover, Django 1.6 compat
+    from django.utils.module_loading import import_by_path as import_string
 
 from .compat import Creator
 from ..enums import ChoicesEnum
@@ -20,6 +25,9 @@ class EnumFieldMixin(object):
 
     def __init__(self, enum=None, **kwargs):
         choices = kwargs.pop('choices', None)
+        if enum and isinstance(enum, six.string_types):
+            enum = import_string(enum)
+
         if choices is None and enum:
             choices = enum.choices()
         kwargs['choices'] = choices
@@ -90,7 +98,7 @@ class EnumFieldMixin(object):
         name, path, args, kwargs = super(EnumFieldMixin, self).deconstruct()
         if self.enum:
             kwargs["enum"] = self.enum
-            if 'choices' in kwargs:
+            if 'choices' in kwargs:  # pragma: no cover
                 del kwargs["choices"]
         return name, path, args, kwargs
 
@@ -101,6 +109,8 @@ class EnumFieldMixin(object):
         args, kwargs = introspector(self)
         if 'default' in kwargs and self.default:
             kwargs['default'] = repr(self.to_python(self.default).value)
+        if self.enum:
+            kwargs['enum'] = repr(self.enum._import_path())
         return (str(path), args, kwargs)
 
 

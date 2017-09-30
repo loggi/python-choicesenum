@@ -32,7 +32,7 @@ class ChoicesEnum(Enum):
     def __len__(self):
         try:
             return len(self.value)
-        except:
+        except Exception:
             return 1
 
     def __hash__(self):
@@ -110,3 +110,7 @@ class ChoicesEnum(Enum):
             cls (Enum): Enum class.
         """
         return list(cls)
+
+    @classmethod
+    def _import_path(cls):
+        return '{}.{}'.format(cls.__module__, cls.__name__)

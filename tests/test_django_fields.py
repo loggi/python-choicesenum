@@ -113,9 +113,59 @@ def test_south_deconstruct_support(field_cls, enum_for_field_cls):
     assert field.south_field_triple() == (
         'choicesenum.django.fields.{}'.format(field_cls.__name__),
         [],
-        {'default': repr(default_enum.value)},
+        {
+            'enum': repr(enum_for_field_cls._import_path()),
+            'default': repr(default_enum.value),
+        },
     )
-    # field_type
+
+
+def test_should_allow_enum_as_a_path_to_class(field_cls, enum_for_field_cls):
+    # given
+    import_path = enum_for_field_cls._import_path()
+    default_enum = enum_for_field_cls.options()[0]
+
+    # when
+    field = field_cls(
+        enum=import_path,
+        default=default_enum,
+    )
+
+    # then
+    assert field.enum is enum_for_field_cls
+
+
+@pytest.mark.skipif(django.VERSION[:2] < (1, 7), reason="requires Django 1.7+ for migrations")
+def test_migrations_deconstruct_support(field_cls, enum_for_field_cls):
+    default_enum = enum_for_field_cls.options()[0]
+    field = field_cls(
+        enum=enum_for_field_cls,
+        default=default_enum,
+    )
+    assert field.deconstruct() == (
+        None,
+        'choicesenum.django.fields.{}'.format(field_cls.__name__),
+        [],
+        {
+            'enum': enum_for_field_cls,
+            'default': default_enum,
+        },
+    )
+
+
+@pytest.mark.skipif(django.VERSION[:2] < (1, 7), reason="requires Django 1.7+ for migrations")
+def test_migrations_deconstruct_support_without_enum(field_cls, enum_for_field_cls):
+    field = field_cls(
+        choices=enum_for_field_cls.choices(),
+    )
+    assert field.deconstruct() == (
+        None,
+        'choicesenum.django.fields.{}'.format(field_cls.__name__),
+        [],
+        {
+            'choices': enum_for_field_cls.choices(),
+        },
+    )
 
 
 # TODO: Attempt to turn field check tests compatible with Django 1.7
