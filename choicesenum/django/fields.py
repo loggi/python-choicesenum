@@ -88,7 +88,16 @@ class EnumFieldMixin(object):
         return self.enum(value)
 
     def from_db_value(self, value, expression, connection, context):
-        return self.to_python(value)
+        try:
+            return self.enum(value)
+        except ValueError:
+            # We need to return None here even if the enum has no None value
+            # to support models being fetched via select_related.
+            # The row converters are run before the pk=None check in
+            # the default Django model managers.
+            if value is None:
+                return value
+            raise
 
     def get_prep_value(self, value):
         enum_value = self.to_python(value)

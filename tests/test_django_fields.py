@@ -251,3 +251,31 @@ def test_integer_field_should_allow_filters():
 
     instance2 = User.objects.filter(status=UserStatus.ACTIVE).first()
     assert instance.pk == instance2.pk
+
+
+@pytest.mark.django_db
+def test_handle_select_related_with_no_none_enum_value():
+    # given
+    from tests.app.models import Preference
+
+    # when
+    Preference.objects.create()
+
+    # then
+
+    objs = Preference.objects.select_related('color')
+    assert len(objs) == 1
+
+
+@pytest.mark.django_db
+def test_converts_null_to_enum_none_if_present():
+    # given
+    from tests.app.models import User, UserStatus
+
+    # when
+    User.objects.create(status=None)
+    instance = User.objects.filter(status=None).first()
+
+    # then
+
+    assert instance.status.display == UserStatus.UNDEFINED.display
