@@ -2,6 +2,12 @@
 History
 =======
 
+0.2.2 (2017-12-01)
+------------------
+
+* Fix: Support queries through `select_related` with no `None` value defined (thanks @klette).
+
+
 0.2.1 (2017-09-30)
 ------------------
 
