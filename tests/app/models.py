@@ -18,3 +18,7 @@ class ColorModel(models.Model):
 class User(models.Model):
     username = models.CharField(max_length=50)
     status = EnumIntegerField(enum=UserStatus, null=True)
+
+
+class Preference(models.Model):
+    color = models.ForeignKey(ColorModel, null=True)
