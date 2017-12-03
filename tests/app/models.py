@@ -21,4 +21,8 @@ class User(models.Model):
 
 
 class Preference(models.Model):
-    color = models.ForeignKey(ColorModel, null=True)
+    color = models.ForeignKey(
+        ColorModel,
+        null=True,
+        on_delete=models.CASCADE,
+    )
