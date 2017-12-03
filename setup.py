@@ -46,4 +46,5 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     setup_requires=setup_requirements,
+    entry_points={'pytest11': ['choicesenum = choicesenum.pytest.plugin']},
 )
