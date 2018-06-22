@@ -169,12 +169,12 @@ Even in dicts and sets, as it shares the same `hash()` from his value:
 .. code:: python
 
     d = {
-        HttpStatuses.OK.value: "nice",
-        HttpStatuses.BAD_REQUEST.value: "bad",
-        401: "Don't do this",
+        HttpStatuses.OK.value: "using value",
+        HttpStatuses.BAD_REQUEST: "using enum",
+        401: "from original value",
     }
-    assert d[HttpStatuses.OK] == "nice"
-    assert d[HttpStatuses.OK.value] == "nice"
+    assert d[HttpStatuses.OK] == "using value"
+    assert d[HttpStatuses.BAD_REQUEST.value] == "using enum"
     assert d[HttpStatuses.OK] == d[HttpStatuses.OK.value]
     assert d[HttpStatuses.UNAUTHORIZED] == d[401]
 
