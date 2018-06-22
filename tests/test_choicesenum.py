@@ -243,3 +243,18 @@ def test_custom_properties(request, enum_fixture, attr, property, expected):
     prop_value = getattr(enum_item, property)
 
     assert prop_value == expected
+
+
+def test_should_be_used_as_replacement_as_key_on_dics(http_statuses):
+    # given
+    d = {
+        http_statuses.OK: "nice",
+        http_statuses.BAD_REQUEST: "bad",
+        401: "Don't do this",
+    }
+
+    # then
+    assert d[http_statuses.OK] == "nice"
+    assert d[http_statuses.OK.value] == "nice"
+    assert d[http_statuses.OK] == d[http_statuses.OK.value]
+    assert d[http_statuses.UNAUTHORIZED] == d[401]

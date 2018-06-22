@@ -2,6 +2,12 @@
 History
 =======
 
+0.3.0 (2018-06-22)
+------------------
+
+* Official Django 2.0 support (0.2.2 just works fine too).
+* ``ChoicesEnum`` sharing the same hash() as his value. Can be used to retrieve/restore items in dicts (`d[enum] == d[enum.value]`).
+
 0.2.2 (2017-12-01)
 ------------------
 
