@@ -164,6 +164,20 @@ The enum item can be used whenever the value is needed:
     assert u'Currrent color is {c} ({c.display})'.format(c=color) ==\
            u'Currrent color is #f00 (Vermelho)'
 
+Even in dicts and sets, as it shares the same `hash()` from his value:
+
+.. code:: python
+
+    d = {
+        HttpStatuses.OK.value: "nice",
+        HttpStatuses.BAD_REQUEST.value: "bad",
+        401: "Don't do this",
+    }
+    assert d[HttpStatuses.OK] == "nice"
+    assert d[HttpStatuses.OK.value] == "nice"
+    assert d[HttpStatuses.OK] == d[HttpStatuses.OK.value]
+    assert d[HttpStatuses.UNAUTHORIZED] == d[401]
+
 
 Usage with the custom Django fields:
 

@@ -277,5 +277,23 @@ def test_converts_null_to_enum_none_if_present():
     instance = User.objects.filter(status=None).first()
 
     # then
-
     assert instance.status.display == UserStatus.UNDEFINED.display
+
+
+@pytest.mark.django_db
+def test_raise_error_when_value_is_not_an_possible_choice():
+    # given
+    from tests.app.models import User
+    from django.db import connection
+    cur = connection.cursor()
+    try:
+        cur.execute("insert into app_user values(1, 'bla', 5)")
+    finally:
+        cur.close()
+
+    # when
+    with pytest.raises(ValueError) as excinfo:
+        User.objects.first()
+
+    # then
+    assert str(excinfo.value) == '5 is not a valid UserStatus'

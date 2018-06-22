@@ -36,7 +36,7 @@ class ChoicesEnum(Enum):
             return 1
 
     def __hash__(self):
-        return hash(self._name_)
+        return hash(self.value)
 
     def __lt__(self, other):
         return self.value < self._get_value(other)
