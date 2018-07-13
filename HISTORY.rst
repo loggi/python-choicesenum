@@ -7,6 +7,7 @@ History
 
 * Optimistic casting of inner types (thanks @gabisurita).
 * Optional stdlib patch to automagic json serialization support.
+* Add Python3.7 to the test matrix.
 
 
 0.3.0 (2018-06-22)
