@@ -260,6 +260,30 @@ There's also optimistic casting of inner types:
     assert float(HttpStatuses.OK) == 200.0
     assert str(HttpStatuses.BAD_REQUEST) == "400"
 
+
+JSON
+´´´´
+
+If you want json serialization, you have at least two options:
+
+    1. Patch the default serializer.
+    2. Write a custom JSONEncoder.
+
+ChoicesEnum comes with a handy patch funtion, you need to add this
+code to somewhere at the top of everything to automagically add
+json serialization capabilities:
+
+.. code:: python
+
+    from choicesenum.patches import patch_json
+    patch_json()
+
+.. note::
+
+    Eventually ``__json__`` will be added to the stdlib, see
+    https://bugs.python.org/issue27362
+
+
 ------
 Django
 ------
