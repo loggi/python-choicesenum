@@ -22,6 +22,12 @@ class ChoicesEnum(Enum):
     def __str__(self):
         return str(self.value)
 
+    def __int__(self):
+        return int(self.value)
+
+    def __float__(self):
+        return float(self.value)
+
     def __repr__(self):
         return "%s(%r).%s" % (self.__class__.__name__, self._value_, self._name_, )
 

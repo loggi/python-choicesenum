@@ -85,6 +85,15 @@ def test_in_format_python2(colors):
     assert '{!r}'.format(colors.RED) == "Color(u'#f00').RED"
 
 
+@pytest.mark.parametrize('cast', (str, int, float))
+def test_casting(http_statuses, cast):
+    result = cast(http_statuses.OK)
+    expected = cast(http_statuses.OK.value)
+
+    assert result == expected
+    assert type(result) == type(expected)
+
+
 def test_should_proxy_len_calls(colors):
     assert len(colors.RED) == len(colors.RED.value) == len('#f00') == 4
 
