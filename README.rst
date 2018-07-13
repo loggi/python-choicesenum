@@ -19,6 +19,7 @@ Python's Enum with extra powers to play nice with labels and choices fields.
 * Free software: BSD license
 * Documentation: https://python-choicesenum.readthedocs.io.
 
+------------
 Installation
 ------------
 
@@ -26,7 +27,7 @@ Install ``choicesenum`` using pip::
 
     $ pip install choicesenum
 
-
+--------
 Features
 --------
 
@@ -36,6 +37,7 @@ Features
 * Support (tested) for Python 2.7, 3.4, 3.5 and 3.6.
 * Support (tested) for Django 1.6.1 (with south), 1.7, 1.8, 1.9, 1.10, 1.11 and 2.0.
 
+--------------
 Usage examples
 --------------
 
@@ -49,6 +51,21 @@ Example with ``HttpStatuses``:
         UNAUTHORIZED = 401
         FORBIDDEN = 403
 
+Example with ``Colors``:
+
+.. code:: python
+
+    from choicesenum import ChoicesEnum
+
+    class Colors(ChoicesEnum):
+        RED = '#f00', 'Vermelho'
+        GREEN = '#0f0', 'Verde'
+        BLUE = '#00f', 'Azul'
+
+
+Comparisson
+-----------
+
 All `Enum` types can be compared against their values:
 
 .. code:: python
@@ -61,6 +78,13 @@ All `Enum` types can be compared against their values:
     status_code = HttpStatuses.OK
     assert 200 <= status_code <= 300
 
+    assert Colors.RED == '#f00'
+    assert Colors.GREEN == '#0f0'
+    assert Colors.BLUE == '#00f'
+
+
+Label for free
+--------------
 
 All `Enum` types have by default a `display` derived from the enum identifier:
 
@@ -89,8 +113,44 @@ You can easily define your own custom display for an `Enum` item using a tuple:
     assert HttpStatuses.FORBIDDEN.display == 'Forbidden'
 
 
-You can declare custom properties and methods:
+Dynamic properties
+------------------
 
+For each enum item, a dynamic property ``is_<enum_item>`` is generated to allow
+quick boolean checks:
+
+.. code:: python
+
+    color = Colors.RED
+    assert color.is_red
+    assert not color.is_blue
+    assert not color.is_green
+
+This feature is usefull to avoid comparing a received enum value against a know enum item.
+
+For example, you can replace code like this:
+
+.. code:: python
+
+    # status = HttpStatuses.BAD_REQUEST
+
+    def check_status(status):
+        if status == HttpStatuses.OK:
+            print("Ok!")
+
+To this:
+
+.. code:: python
+
+    def check_status(status):
+        if status.is_ok:
+            print("Ok!")
+
+
+Custom methods and properties
+-----------------------------
+
+You can declare custom properties and methods:
 
 .. code:: python
 
@@ -108,54 +168,68 @@ You can declare custom properties and methods:
     assert HttpStatuses.BAD_REQUEST.is_error is True
     assert HttpStatuses.UNAUTHORIZED.is_error is True
 
+Iteration
+---------
 
-Example with ``Colors``:
+The enum type is iterable:
+
+.. code:: python
+
+    >>> for color in Colors:
+    ...     print(repr(color))
+    Color('#f00').RED
+    Color('#0f0').GREEN
+    Color('#00f').BLUE
+
+
+Order is guaranteed only for py3.4+. For fixed order in py2.7, you
+can implement a magic attribute ``_order_``:
 
 .. code:: python
 
     from choicesenum import ChoicesEnum
 
     class Colors(ChoicesEnum):
-        # For fixed order in  py2.7, py3.4+ are ordered by default
         _order_ = 'RED GREEN BLUE'
 
         RED = '#f00', 'Vermelho'
         GREEN = '#0f0', 'Verde'
         BLUE = '#00f', 'Azul'
 
-    assert Colors.RED == '#f00'
-    assert Colors.GREEN == '#0f0'
-    assert Colors.BLUE == '#00f'
-
-    assert Colors.RED.display == 'Vermelho'
-    assert Colors.GREEN.display == 'Verde'
-    assert Colors.BLUE.display == 'Azul'
-
+Choices
+-------
 
 Use ``.choices()`` method to receive a list of tuples ``(item, display)``:
 
 .. code:: python
 
-    # choices
     assert list(Colors.choices()) == [
         ('#f00', 'Vermelho'),
         ('#0f0', 'Verde'),
         ('#00f', 'Azul'),
     ]
 
+Values
+-------
 
-For each enum item, a dynamic property ``is_<enum_item>`` is generated to allow
-quick boolean checks:
+Use ``.values()`` method to receive a list of the inner values:
 
 .. code:: python
 
-    color = Colors.RED
-    assert color.is_red
-    assert not color.is_blue
-    assert not color.is_green
+    assert Colors.values() == ['#f00', '#0f0', '#00f', ]
 
-    if color.is_red:
-        print 'Is red!'
+Options
+-------
+
+Even if a ``ChoicesEnum`` class is an iterator by itself, you can use ``.options()`` to convert the enum itens to a list:
+
+.. code:: python
+
+    assert Colors.options() == [Colors.RED, Colors.GREEN, Colors.BLUE]
+
+
+Compatibility
+-------------
 
 The enum item can be used whenever the value is needed:
 
@@ -178,6 +252,20 @@ Even in dicts and sets, as it shares the same `hash()` from his value:
     assert d[HttpStatuses.OK] == d[HttpStatuses.OK.value]
     assert d[HttpStatuses.UNAUTHORIZED] == d[401]
 
+There's also optimistic casting of inner types:
+
+.. code:: python
+
+    assert int(HttpStatuses.OK) == 200
+    assert float(HttpStatuses.OK) == 200.0
+    assert str(HttpStatuses.BAD_REQUEST) == "400"
+
+------
+Django
+------
+
+Fields
+------
 
 Usage with the custom Django fields:
 
@@ -235,6 +323,11 @@ so if your field allow `null`, your enum should also:
     # again...
     instance.status = None
     assert instance.status.is_undefined is True
+
+
+--------
+Graphene
+--------
 
 Usage with Graphene_ Enums:
 

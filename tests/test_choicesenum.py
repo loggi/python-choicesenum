@@ -267,3 +267,24 @@ def test_should_be_used_as_replacement_as_key_on_dics(http_statuses):
     assert d[http_statuses.BAD_REQUEST.value] == "using enum"
     assert d[http_statuses.OK] == d[http_statuses.OK.value]
     assert d[http_statuses.UNAUTHORIZED] == d[401]
+
+
+@pytest.mark.parametrize('enum_fixture, expected_json', [
+    ('http_statuses', '{"enum_values": [200, 400, 401, 403]}'),
+])
+def test_should_be_json_serializable(request, enum_fixture, expected_json):
+    import json
+    from choicesenum.patches import patch_json
+    # given
+    patch_json()  # patching the default encoder
+
+    enum = request.getfixturevalue(enum_fixture)
+    data = {
+        "enum_values": enum.options(),
+    }
+
+    # when
+    result = json.dumps(data)
+
+    # then
+    assert result == expected_json

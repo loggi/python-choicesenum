@@ -2,6 +2,13 @@
 History
 =======
 
+0.3.1 (2018-07-13)
+------------------
+
+* Optimistic casting of inner types (thanks @gabisurita).
+* Optional stdlib patch to automagic json serialization support.
+
+
 0.3.0 (2018-06-22)
 ------------------
 
