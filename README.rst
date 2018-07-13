@@ -221,7 +221,7 @@ Use ``.values()`` method to receive a list of the inner values:
 Options
 -------
 
-Even if a ``ChoicesEnum`` class is an iterator by itself, you can use ``.options()`` to convert the enum itens to a list:
+Even if a ``ChoicesEnum`` class is an iterator by itself, you can use ``.options()`` to convert the enum items to a list:
 
 .. code:: python
 
@@ -262,12 +262,12 @@ There's also optimistic casting of inner types:
 
 
 JSON
-´´´´
+....
 
 If you want json serialization, you have at least two options:
 
-    1. Patch the default serializer.
-    2. Write a custom JSONEncoder.
+1. Patch the default serializer.
+2. Write a custom JSONEncoder.
 
 ChoicesEnum comes with a handy patch funtion, you need to add this
 code to somewhere at the top of everything to automagically add
