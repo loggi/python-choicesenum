@@ -11,6 +11,7 @@ Contributors
 ------------
 
 * Kristian Klette <klette@klette.us>
+* Gabriela Surita <gabsurita@gmail.com>
 
 
 Tools
