@@ -2,7 +2,7 @@
 History
 =======
 
-0.3.1 (2018-07-13)
+0.4.0 (2018-07-13)
 ------------------
 
 * Optimistic casting of inner types (thanks @gabisurita).
