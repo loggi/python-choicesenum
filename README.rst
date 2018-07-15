@@ -34,7 +34,7 @@ Features
 * An ``ChoicesEnum`` that can be used to create constant groups.
 * ``ChoicesEnum`` can define labels to be used in `choices` fields.
 * Django fields included:  ``EnumCharField`` and ``EnumIntegerField``.
-* Support (tested) for Python 2.7, 3.4, 3.5 and 3.6.
+* Support (tested) for Python 2.7, 3.4, 3.5, 3.6 and 3.7.
 * Support (tested) for Django 1.6.1 (with south), 1.7, 1.8, 1.9, 1.10, 1.11 and 2.0.
 
 --------------
