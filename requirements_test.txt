@@ -1,6 +1,6 @@
 # test
 pytest==3.7.0
-pytest-cov==2.5.1
+pytest-cov==2.6.0
 pytest-flake8==1.0.2
 pytest-watch==4.2.0
 pytest-sugar==0.9.1
