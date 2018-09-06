@@ -1,5 +1,5 @@
 # test
-pytest==3.7.0
+pytest==3.8.0
 pytest-cov==2.5.1
 pytest-flake8==1.0.2
 pytest-watch==4.2.0
