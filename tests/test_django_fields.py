@@ -82,6 +82,21 @@ def test_string_field_should_allow_creating_objects_with_values(color):
 
 
 @pytest.mark.django_db
+def test_should_allow_queryset_defer(color):
+    # given
+    from tests.app.models import ColorModel, Color
+    enum_color = Color(color)
+    ColorModel.objects.create(color=color)
+
+    # when
+    instance = ColorModel.objects.filter(color=color).defer('color').first()
+
+    # then
+    assert instance.color.value == enum_color.value
+    assert instance.color.display == enum_color.display
+
+
+@pytest.mark.django_db
 def test_string_field_should_allow_assigning_values(color):
     # given
     from tests.app.models import ColorModel, Color
@@ -205,7 +220,9 @@ class TestFieldChecks(object):
 
 
 class TestCompatModule(object):
-
+    @pytest.mark.skipif(
+        django.VERSION[:2] < (1, 11),
+        reason="in Django <1.11 DeferredAttribute accesses model _meta")
     def test_creator_should_call_field_to_python_on_assigment(self):
         # given
         from choicesenum.django.compat import Creator
@@ -213,13 +230,13 @@ class TestCompatModule(object):
         class MyFakeDuplicatorField(object):
 
             def __init__(self, name):
-                self.name = name
+                self.attname = name
 
             def to_python(self, value):
                 return value * 2
 
         class MyFakeModel(object):
-            duplicator = Creator(MyFakeDuplicatorField(name='duplicator'))
+            duplicator = Creator(MyFakeDuplicatorField(name='duplicator'), None)
 
         instance = MyFakeModel()
 

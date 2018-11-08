@@ -82,7 +82,7 @@ class EnumFieldMixin(object):
         # Retain to_python behaviour for < Django 1.8 with removal
         # of SubfieldBase
         super(EnumFieldMixin, self).contribute_to_class(cls, name)
-        setattr(cls, name, Creator(self))
+        setattr(cls, name, Creator(self, cls))
 
     def to_python(self, value):
         return self.enum(value)
