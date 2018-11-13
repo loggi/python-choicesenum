@@ -1,6 +1,6 @@
 # test
 -r requirements_test.txt
-pytest-django==3.4.3
+pytest-django==3.4.4
 Django==2.1.2
 tox==3.5.2
 
