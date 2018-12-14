@@ -2,7 +2,7 @@
 -r requirements_test.txt
 pytest-django==3.4.3
 Django==2.1.2
-tox==3.5.2
+tox==3.6.0
 
 # docs
 Sphinx==1.8.1
