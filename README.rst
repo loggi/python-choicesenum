@@ -227,6 +227,17 @@ Even if a ``ChoicesEnum`` class is an iterator by itself, you can use ``.options
 
     assert Colors.options() == [Colors.RED, Colors.GREEN, Colors.BLUE]
 
+A "dict like" get
+-------------
+
+Use ``.get(value, default=None)`` method to receive ``default`` if ``value`` is not an item of enum:
+
+.. code:: python
+
+    Colors.get(Colors.RED) == Colors.RED
+    Colors.get('#f00') == Colors.RED
+    Colors.get('undefined_color') is None
+    Colors.get('undefined_color', Colors.RED) == Colors.RED
 
 Compatibility
 -------------
