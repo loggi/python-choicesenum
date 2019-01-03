@@ -136,5 +136,20 @@ class ChoicesEnum(Enum):
         return list(cls)
 
     @classmethod
+    def get(cls, value, default=None):
+        """
+        Dict `.get()` like to return a default value.
+
+        Args:
+            cls (Enum): Enum class.
+            value: Value to get inside Enum.
+            default: Value to return in case of error. Default is None.
+        """
+        try:
+            return cls(value)
+        except Exception:
+            return default
+
+    @classmethod
     def _import_path(cls):
         return '{}.{}'.format(cls.__module__, cls.__name__)

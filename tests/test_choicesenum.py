@@ -288,3 +288,10 @@ def test_should_be_json_serializable(request, enum_fixture, expected_json):
 
     # then
     assert result == expected_json
+
+
+def test_should_return_default_value(colors):
+    assert colors.get(colors.RED) == colors.RED
+    assert colors.get('#f00') == colors.RED
+    assert colors.get('undefined_color') is None
+    assert colors.get('undefined_color', colors.RED) == colors.RED
