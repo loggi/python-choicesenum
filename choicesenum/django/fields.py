@@ -97,6 +97,14 @@ class EnumFieldMixin(object):
             # the default Django model managers.
             if value is None:
                 return value
+
+            # For certain operations on Postgres ArrayFields and Array
+            # aggregation, we need to handle list values
+            if type(value) == list:
+                return list(filter(None, [
+                    self.from_db_value(x, expression, connection, context)
+                    for x in value
+                ]))
             raise
 
     def get_prep_value(self, value):

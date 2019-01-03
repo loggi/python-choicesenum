@@ -297,3 +297,21 @@ def test_raise_error_when_value_is_not_an_possible_choice():
 
     # then
     assert str(excinfo.value) == '5 is not a valid UserStatus'
+
+
+@pytest.mark.skipif(
+    django.VERSION[:2] < (1, 7),
+    reason="requires Django 1.7+ for accessing Model.attribute.field")
+def test_converts_list_aggregations():
+    # given
+    from tests.app.models import ColorModel, Color
+
+    # when
+    db_return_value = [Color.RED.value, Color.GREEN.value, None]
+
+    # then
+    objs = ColorModel.color.field.from_db_value(db_return_value, None, None, None)
+
+    assert len(objs) == 2
+    assert objs[0] == Color.RED
+    assert objs[1] == Color.GREEN
