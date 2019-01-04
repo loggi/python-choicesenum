@@ -15,9 +15,7 @@ requirements = [
     'enum34;python_version<"3.4"',
 ]
 
-setup_requirements = [
-    # TODO(loggi): put setup requirements (distutils extensions, etc.) here
-]
+setup_requirements = []
 
 setup(
     name='choicesenum',

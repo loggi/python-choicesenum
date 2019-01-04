@@ -231,7 +231,7 @@ Even if a ``ChoicesEnum`` class is an iterator by itself, you can use ``.options
     assert Colors.options() == [Colors.RED, Colors.GREEN, Colors.BLUE]
 
 A "dict like" get
--------------
+-----------------
 
 Use ``.get(value, default=None)`` method to receive ``default`` if ``value`` is not an item of enum:
 
