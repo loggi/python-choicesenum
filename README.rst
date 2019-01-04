@@ -234,10 +234,10 @@ Use ``.get(value, default=None)`` method to receive ``default`` if ``value`` is 
 
 .. code:: python
 
-    Colors.get(Colors.RED) == Colors.RED
-    Colors.get('#f00') == Colors.RED
-    Colors.get('undefined_color') is None
-    Colors.get('undefined_color', Colors.RED) == Colors.RED
+    assert Colors.get(Colors.RED) == Colors.RED
+    assert Colors.get('#f00') == Colors.RED
+    assert Colors.get('undefined_color') is None
+    assert Colors.get('undefined_color', Colors.RED) == Colors.RED
 
 Compatibility
 -------------
@@ -270,6 +270,15 @@ There's also optimistic casting of inner types:
     assert int(HttpStatuses.OK) == 200
     assert float(HttpStatuses.OK) == 200.0
     assert str(HttpStatuses.BAD_REQUEST) == "400"
+
+
+Check membership:
+
+.. code:: python
+
+    assert HttpStatuses.OK in HttpStatuses
+    assert 200 in HttpStatuses
+    assert 999 not in HttpStatuses
 
 
 JSON
