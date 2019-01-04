@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+import mock
+
 import pytest
 import django
 
@@ -220,35 +222,22 @@ class TestFieldChecks(object):
 
 
 class TestCompatModule(object):
-    @pytest.mark.skipif(
-        django.VERSION[:2] < (1, 11),
-        reason="in Django <1.11 DeferredAttribute accesses model _meta")
+
     def test_creator_should_call_field_to_python_on_assigment(self):
-        # given
-        from choicesenum.django.compat import Creator
+        from tests.app.models import User, UserStatus
 
-        class MyFakeDuplicatorField(object):
+        with mock.patch('choicesenum.django.fields.EnumFieldMixin.to_python') as m:
+            m.return_value = UserStatus.DELETED
 
-            def __init__(self, name):
-                self.attname = name
+            # given
+            instance = User()
 
-            def to_python(self, value):
-                return value * 2
+            # when
+            instance.status = UserStatus.ACTIVE
 
-        class MyFakeModel(object):
-            duplicator = Creator(MyFakeDuplicatorField(name='duplicator'), None)
-
-        instance = MyFakeModel()
-
-        # when
-        instance.duplicator = 'Hoa'
-        # then
-        assert instance.duplicator == 'HoaHoa'
-
-        # when
-        instance.duplicator = 7
-        # then
-        assert instance.duplicator == 14
+            # then
+            m.assert_called_with(UserStatus.ACTIVE)
+            assert instance.status == UserStatus.DELETED
 
 
 @pytest.mark.django_db
@@ -329,6 +318,4 @@ def test_converts_list_aggregations():
     # then
     objs = ColorModel.color.field.from_db_value(db_return_value, None, None, None)
 
-    assert len(objs) == 2
-    assert objs[0] == Color.RED
-    assert objs[1] == Color.GREEN
+    assert objs == [Color.RED, Color.GREEN]

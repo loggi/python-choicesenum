@@ -11,14 +11,11 @@ class Creator(DeferredAttribute):
     behaviour for <=1.9 code by copying Creator from Django's 1.8.x branch:
       ``django.db.models.fields.subclassing``
     """
-    if django.VERSION < (2, 1):
-        def __init__(self, field, model):
-            self.field = field
+    def __init__(self, field, model):
+        self.field = field
+        if django.VERSION < (2, 1):  # pragma: no cover (Django < 2.1 compat)
             super(Creator, self).__init__(field.attname, model)
-
-    else:
-        def __init__(self, field, model):
-            self.field = field
+        else:  # pragma: no cover
             super(Creator, self).__init__(field.attname)
 
     def __set__(self, obj, value):
