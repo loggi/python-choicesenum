@@ -91,7 +91,8 @@ def test_casting(http_statuses, cast):
     expected = cast(http_statuses.OK.value)
 
     assert result == expected
-    assert type(result) == type(expected)
+    assert isinstance(result, cast)
+    assert isinstance(expected, cast)
 
 
 def test_should_proxy_len_calls(colors):
