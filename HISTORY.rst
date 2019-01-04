@@ -2,6 +2,16 @@
 History
 =======
 
+0.5.0 (2019-07-04)
+------------------
+
+* Membership test (item in Enum) returning valid results for primitive values.
+* New dict-like `.get` method able to return a default value (thanks @leandrogs).
+* Django: Support Postgres array functions and queries (thanks @tomfa).
+* Django: Support for deferring an enum field using `queryset.defer()` (thanks @noamkush).
+* Django: 2.1 support.
+
+
 0.4.0 (2018-07-13)
 ------------------
 
