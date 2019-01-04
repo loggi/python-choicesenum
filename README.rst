@@ -13,6 +13,9 @@ Choices Enum
         :target: https://python-choicesenum.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
+.. image:: https://coveralls.io/repos/github/loggi/python-choicesenum/badge.svg?branch=master
+        :target: https://coveralls.io/github/loggi/python-choicesenum?branch=master
+
 
 Python's Enum with extra powers to play nice with labels and choices fields.
 
