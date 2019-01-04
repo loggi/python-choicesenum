@@ -296,3 +296,9 @@ def test_should_return_default_value(colors):
     assert colors.get('#f00') == colors.RED
     assert colors.get('undefined_color') is None
     assert colors.get('undefined_color', colors.RED) == colors.RED
+
+
+def test_should_support_membership_vertification(colors):
+    assert colors.RED in colors
+    assert colors.RED.value in colors
+    assert 'non-existent-color' not in colors

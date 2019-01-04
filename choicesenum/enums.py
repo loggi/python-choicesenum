@@ -1,10 +1,23 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
-from enum import Enum
+import six
+from enum import Enum, EnumMeta
 
 
-class ChoicesEnum(Enum):
+class ChoicesMetaClass(EnumMeta):
+
+    def __contains__(cls, member):
+        if not isinstance(member, cls):
+            try:
+                member = cls(member)
+            except Exception:
+                return False
+
+        return member._name_ in cls._member_map_
+
+
+class ChoicesEnum(six.with_metaclass(ChoicesMetaClass, Enum)):
 
     def __new__(cls, value, display=None):
         obj = object.__new__(cls)
@@ -90,7 +103,7 @@ class ChoicesEnum(Enum):
 
     @property
     def display(self):
-        return self._display_ if self._display_ is not None else\
+        return self._display_ if self._display_ is not None else \
             self._name_.replace('_', ' ').capitalize()
 
     @property
