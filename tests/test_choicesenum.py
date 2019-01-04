@@ -243,14 +243,14 @@ def test_integer_enum_should_be_comparable(http_statuses):
     sys.version_info[:2] == (3, 4),
     reason="Python 3.4 implementation don't allow custom properties"
 )
-@pytest.mark.parametrize('enum_fixture, attr, property, expected', [
+@pytest.mark.parametrize('enum_fixture, attr, property_name, expected', [
     ('http_statuses', 'OK', 'is_error', False),
     ('http_statuses', 'BAD_REQUEST', 'is_error', True),
 ])
-def test_custom_properties(request, enum_fixture, attr, property, expected):
+def test_custom_properties(request, enum_fixture, attr, property_name, expected):
     enum = request.getfixturevalue(enum_fixture)
     enum_item = getattr(enum, attr)
-    prop_value = getattr(enum_item, property)
+    prop_value = getattr(enum_item, property_name)
 
     assert prop_value == expected
 
