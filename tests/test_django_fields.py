@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+import mock
+
 import pytest
 import django
 
@@ -75,6 +77,21 @@ def test_string_field_should_allow_creating_objects_with_values(color):
 
     # when
     instance = ColorModel.objects.create(color=color)
+
+    # then
+    assert instance.color.value == enum_color.value
+    assert instance.color.display == enum_color.display
+
+
+@pytest.mark.django_db
+def test_should_allow_queryset_defer(color):
+    # given
+    from tests.app.models import ColorModel, Color
+    enum_color = Color(color)
+    ColorModel.objects.create(color=color)
+
+    # when
+    instance = ColorModel.objects.filter(color=color).defer('color').first()
 
     # then
     assert instance.color.value == enum_color.value
@@ -207,31 +224,20 @@ class TestFieldChecks(object):
 class TestCompatModule(object):
 
     def test_creator_should_call_field_to_python_on_assigment(self):
-        # given
-        from choicesenum.django.compat import Creator
+        from tests.app.models import User, UserStatus
 
-        class MyFakeDuplicatorField(object):
+        with mock.patch('choicesenum.django.fields.EnumFieldMixin.to_python') as m:
+            m.return_value = UserStatus.DELETED
 
-            def __init__(self, name):
-                self.name = name
+            # given
+            instance = User()
 
-            def to_python(self, value):
-                return value * 2
+            # when
+            instance.status = UserStatus.ACTIVE
 
-        class MyFakeModel(object):
-            duplicator = Creator(MyFakeDuplicatorField(name='duplicator'))
-
-        instance = MyFakeModel()
-
-        # when
-        instance.duplicator = 'Hoa'
-        # then
-        assert instance.duplicator == 'HoaHoa'
-
-        # when
-        instance.duplicator = 7
-        # then
-        assert instance.duplicator == 14
+            # then
+            m.assert_called_with(UserStatus.ACTIVE)
+            assert instance.status == UserStatus.DELETED
 
 
 @pytest.mark.django_db
@@ -312,6 +318,4 @@ def test_converts_list_aggregations():
     # then
     objs = ColorModel.color.field.from_db_value(db_return_value, None, None, None)
 
-    assert len(objs) == 2
-    assert objs[0] == Color.RED
-    assert objs[1] == Color.GREEN
+    assert objs == [Color.RED, Color.GREEN]

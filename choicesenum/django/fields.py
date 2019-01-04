@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.core import checks
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils import six
 try:
     from django.utils.module_loading import import_string
@@ -82,7 +82,7 @@ class EnumFieldMixin(object):
         # Retain to_python behaviour for < Django 1.8 with removal
         # of SubfieldBase
         super(EnumFieldMixin, self).contribute_to_class(cls, name)
-        setattr(cls, name, Creator(self))
+        setattr(cls, name, Creator(self, cls))
 
     def to_python(self, value):
         return self.enum(value)
