@@ -133,7 +133,6 @@ class EnumFieldMixin(object):
 
 def get_base_classes(cls_type):  # pragma: no cover, already covered by tox matrix
     if hasattr(models, 'SubfieldBase'):
-        from django.utils import six
         return six.with_metaclass(models.SubfieldBase, EnumFieldMixin, cls_type)
 
     class EnumFieldBase(EnumFieldMixin, cls_type):
