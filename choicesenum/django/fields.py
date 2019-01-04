@@ -135,10 +135,11 @@ def get_base_classes(cls_type):  # pragma: no cover, already covered by tox matr
     if hasattr(models, 'SubfieldBase'):
         from django.utils import six
         return six.with_metaclass(models.SubfieldBase, EnumFieldMixin, cls_type)
-    else:
-        class EnumFieldBase(EnumFieldMixin, cls_type):
-            pass
-        return EnumFieldBase
+
+    class EnumFieldBase(EnumFieldMixin, cls_type):
+        pass
+
+    return EnumFieldBase
 
 
 class EnumCharField(get_base_classes(models.CharField)):
