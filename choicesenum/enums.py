@@ -5,7 +5,23 @@ import six
 from enum import Enum, EnumMeta
 
 
+def is_member_factory(enum_member):
+    "Return a property that checks if the current enum is the expected one"
+    @property
+    def is_member(self):
+        return self == enum_member
+    return is_member
+
+
 class ChoicesMetaClass(EnumMeta):
+
+    def __new__(metacls, cls, bases, classdict):
+        enum_class = EnumMeta.__new__(metacls, cls, bases, classdict)
+        for name, enum_value in enum_class._member_map_.items():
+            prop_name = 'is_{}'.format(name.lower())
+            setattr(enum_class, prop_name, is_member_factory(enum_value))
+
+        return enum_class
 
     def __contains__(cls, member):
         if not isinstance(member, cls):
@@ -24,13 +40,6 @@ class ChoicesEnum(six.with_metaclass(ChoicesMetaClass, Enum)):
         obj._value_ = value
         obj._display_ = display
         return obj
-
-    def __getattr__(self, item):
-        is_attr = 'is_'
-        if item.startswith(is_attr) and item in self._get_dynamic_property_names():
-            search = item[len(is_attr):]
-            return search == self._name_.lower()
-        raise AttributeError("'{}' object has no attribute '{}'".format(type(self).__name__, item))
 
     def __str__(self):
         return str(self.value)
@@ -75,14 +84,6 @@ class ChoicesEnum(six.with_metaclass(ChoicesMetaClass, Enum)):
     def __ge__(self, other):
         return self.value >= self._get_value(other)
 
-    def __dir__(self):
-        return sorted(set(
-            dir(type(self)) +
-            list(self.__dict__.keys()) +
-            ['display', 'get_choices', ] +
-            list(self._get_dynamic_property_names())
-        ))
-
     def __json__(self):
         """
         If you want json serialization, you have at least two options:
@@ -113,14 +114,6 @@ class ChoicesEnum(six.with_metaclass(ChoicesMetaClass, Enum)):
         See: http://docs.graphene-python.org/en/latest/types/enums/#usage-with-python-enums
         """
         return self.display
-
-    @classmethod
-    def _get_dynamic_property_names(cls):
-        """
-        Args:
-            cls (Enum): Enum class.
-        """
-        return ('is_{}'.format(x._name_.lower()) for x in cls)
 
     @classmethod
     def choices(cls):
