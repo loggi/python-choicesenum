@@ -2,13 +2,19 @@
 History
 -------
 
-0.5.1 (2019-07-04)
+0.5.2 (2019-01-18)
+------------------
+
+* Optimize member check and dynamic creation of `is_<name>` properties.
+
+
+0.5.1 (2019-01-04)
 ------------------
 
 * Fix readme RST (requires new Pypi upload).
 
 
-0.5.0 (2019-07-04)
+0.5.0 (2019-01-04)
 ------------------
 
 * Membership test (item in Enum) returning valid results for primitive values.
