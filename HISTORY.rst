@@ -2,6 +2,12 @@
 History
 -------
 
+0.5.3 (2019-02-06)
+------------------
+
+* Fix Django migrations with default values for Django 1.7+.
+
+
 0.5.2 (2019-01-18)
 ------------------
 
