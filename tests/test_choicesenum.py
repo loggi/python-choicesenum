@@ -70,12 +70,12 @@ def test_dynamic_is_attr_of_undefined_enums_should_fail(colors):
 
 @pytest.mark.parametrize('attr', ['is_red', 'is_blue', 'is_green'])
 def test_dynamic_is_attr_should_be_in_dir(colors, attr):
-        assert attr in dir(colors.RED)
+    assert attr in dir(colors.RED)
 
 
 @pytest.mark.parametrize('attr', ['RED', 'BLUE', 'GREEN'])
 def test_enum_type_name_should_be_in_dir(colors, attr):
-        assert attr in dir(colors)
+    assert attr in dir(colors)
 
 
 @pytest.mark.skipif(sys.version_info < (3, 0), reason="requires python3")
