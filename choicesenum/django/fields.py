@@ -113,6 +113,10 @@ class EnumFieldMixin(object):
 
     def deconstruct(self):
         name, path, args, kwargs = super(EnumFieldMixin, self).deconstruct()
+
+        if 'default' in kwargs and self.default:
+            kwargs['default'] = self.to_python(self.default).value
+
         if self.enum:
             kwargs["enum"] = self.enum
             if 'choices' in kwargs:  # pragma: no cover

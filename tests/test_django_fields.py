@@ -165,7 +165,7 @@ def test_migrations_deconstruct_support(field_cls, enum_for_field_cls):
         [],
         {
             'enum': enum_for_field_cls,
-            'default': default_enum,
+            'default': default_enum.value,
         },
     )
 
