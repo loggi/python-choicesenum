@@ -87,7 +87,7 @@ class EnumFieldMixin(object):
     def to_python(self, value):
         return self.enum(value)
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, *args, **kwargs):
         try:
             return self.enum(value)
         except ValueError:
@@ -102,7 +102,7 @@ class EnumFieldMixin(object):
             # aggregation, we need to handle list values
             if type(value) == list:
                 return list(filter(None, [
-                    self.from_db_value(x, expression, connection, context)
+                    self.from_db_value(x, *args, **kwargs)
                     for x in value
                 ]))
             raise
