@@ -8,7 +8,7 @@ tox==3.6.1
 Sphinx==1.8.3
 
 # build / deploy
-PyYAML==4.2b1
+PyYAML==5.1b1
 wheel==0.32.3
 bumpversion==0.5.3
 cryptography==2.4.2
