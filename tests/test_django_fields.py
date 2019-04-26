@@ -205,20 +205,49 @@ class TestFieldChecks(object):
         # then
         assert [e.id for e in errors] == expected_errors
 
-    def test_error_if_default_not_provided_value_is_not_supported(
-            self, field_cls, enum_for_field_cls, enum_allow_null):
+    def test_error_if_provided_default_value_is_not_supported(
+            self, field_cls, enum_for_field_cls):
         # given
         field = field_cls(
             enum=enum_for_field_cls,
-            null=False,
+            default='foo',
         )
-        expected_errors = [FieldErrors.E02] if not enum_allow_null else []
+        expected_errors = [FieldErrors.E02]
 
         # when
         errors = field.check()
 
         # then
         assert [e.id for e in errors] == expected_errors
+
+    def test_no_error_if_default_value_is_not_provided(
+            self, field_cls, enum_for_field_cls):
+        # given
+        field = field_cls(
+            enum=enum_for_field_cls,
+        )
+        expected_errors = []
+
+        # when
+        errors = field.check()
+
+        # then
+        assert errors == expected_errors
+
+    def test_no_error_if_provided_default_value_is_supported(
+            self, field_cls, enum_for_field_cls):
+        # given
+        field = field_cls(
+            enum=enum_for_field_cls,
+            default=enum_for_field_cls.values()[0]
+        )
+        expected_errors = []
+
+        # when
+        errors = field.check()
+
+        # then
+        assert errors == expected_errors
 
 
 class TestCompatModule(object):

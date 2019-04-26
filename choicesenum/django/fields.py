@@ -62,6 +62,8 @@ class EnumFieldMixin(object):
         return []
 
     def _check_default(self, **kwargs):
+        if not self.has_default():
+            return []
         try:
             default = self.get_default()
             self.enum(default)
