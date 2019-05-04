@@ -1,5 +1,5 @@
 # test
-mock==2.0.0
+mock==3.0.4
 pytest==3.10.1
 pytest-cov==2.6.0
 pytest-watch==4.2.0
