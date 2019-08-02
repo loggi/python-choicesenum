@@ -15,6 +15,7 @@ Contributors
 * Leandro Gomes <leandrogs99@gmail.com>
 * Tomas Fagerbekk <tomas.a.fagerbekk@gmail.com>
 * Lefteris Karapetsas <lefteris@refu.co>
+* Maiky Guanaes <maiky.guanaes@gmail.com>
 
 
 Tools
