@@ -383,3 +383,30 @@ Usage with Graphene_ Enums:
 .. code:: python
 
     UserStatusEnum = graphene.Enum.from_enum(UserStatus)
+
+
+----------
+Schematics
+----------
+
+Usage with Schematics_ Enums:
+
+.. _Schematics: https://schematics.readthedocs.io/en/latest/usage/types.html
+
+.. code:: python
+
+    from schematics.models import Model as SchematicModel
+    from schematics.types import StringType, DateTimeType
+    from choicesenum import ChoicesEnum
+    from choicesenum.schematics.types import ChoicesEnumType
+
+    class HttpStatus(ChoicesEnum):
+        OK = 200
+        BAD_REQUEST = 400
+        UNAUTHORIZED = 401
+        FORBIDDEN = 403
+
+    class CustomSchematicModel(SchematicModel):
+        name = StringType(required=True, max_length=255)
+        created = DateTimeType(required=True, formats=('%d/%m/%Y', ''))
+        http = ChoicesEnumType(HttpStatuses, required=True)
