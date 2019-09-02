@@ -6,10 +6,10 @@ from schematics.types import BaseType, ValidationError
 
 
 class ChoicesEnumType(BaseType):
-    def __init__(self, type_):
+    def __init__(self, type_, **kwargs):
         if not issubclass(type_, ChoicesEnum):
             raise ValidationError(self.Messages.INVALID_TYPE)
-        super(ChoicesEnumType, self).__init__(type_)
+        super(ChoicesEnumType, self).__init__(type_, kwargs)
         self.type = type_
 
     def to_native(self, value, context=None):
