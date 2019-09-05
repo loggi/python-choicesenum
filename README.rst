@@ -38,7 +38,7 @@ Features
 * ``ChoicesEnum`` can define labels to be used in `choices` fields.
 * Django fields included:  ``EnumCharField`` and ``EnumIntegerField``.
 * Support (tested) for Python 2.7, 3.4, 3.5, 3.6 and 3.7.
-* Support (tested) for Django 1.6.1 (with south), 1.7, 1.8, 1.9, 1.10, 1.11, 2.0 and 2.1.
+* Support (tested) for Django 1.9, 1.10, 1.11, 2.0 and 2.1.
 
 --------------
 Usage examples
@@ -67,7 +67,7 @@ Example with ``Colors``:
 
 
 Comparison
------------
+----------
 
 All `Enum` types can be compared against their values:
 

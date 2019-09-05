@@ -123,17 +123,6 @@ class EnumFieldMixin(object):
                 del kwargs["choices"]
         return name, path, args, kwargs
 
-    def south_field_triple(self):  # pragma: no cover
-        "Returns a suitable description of this field for South (Django 1.6)"
-        from south.modelsinspector import introspector
-        path = "%s.%s" % (self.__class__.__module__, self.__class__.__name__)
-        args, kwargs = introspector(self)
-        if 'default' in kwargs and self.default:
-            kwargs['default'] = repr(self.to_python(self.default).value)
-        if self.enum:
-            kwargs['enum'] = repr(self.enum._import_path())
-        return (str(path), args, kwargs)
-
 
 def get_base_classes(cls_type):  # pragma: no cover, already covered by tox matrix
     if hasattr(models, 'SubfieldBase'):
