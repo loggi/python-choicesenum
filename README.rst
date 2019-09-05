@@ -66,7 +66,7 @@ Example with ``Colors``:
         BLUE = '#00f', 'Azul'
 
 
-Comparisson
+Comparison
 -----------
 
 All `Enum` types can be compared against their values:
