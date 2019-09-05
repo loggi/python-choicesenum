@@ -2,6 +2,12 @@
 History
 -------
 
+0.6.0 (2019-09-05)
+------------------
+
+* Adding schematics contrib type ChoicesEnumType.
+
+
 0.5.3 (2019-02-06)
 ------------------
 
