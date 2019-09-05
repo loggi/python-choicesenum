@@ -19,7 +19,7 @@ setup_requirements = []
 
 setup(
     name='choicesenum',
-    version='0.5.3',
+    version='0.6.0',
     description="Python's Enum with extra powers to play nice with labels and choices fields",
     long_description=readme + '\n\n' + history,
     author="Fernando Macedo",
