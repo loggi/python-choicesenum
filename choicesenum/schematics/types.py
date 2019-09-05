@@ -2,7 +2,8 @@
 from __future__ import absolute_import, unicode_literals
 
 from choicesenum import ChoicesEnum
-from schematics.types import BaseType, ValidationError
+from schematics.types import BaseType
+from schematics.exceptions import ValidationError
 
 
 class ChoicesEnumType(BaseType):

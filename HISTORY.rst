@@ -6,6 +6,8 @@ History
 ------------------
 
 * Adding schematics contrib type ChoicesEnumType.
+* Drop support for Django 1.6, 1.7, 1.8.
+
 
 
 0.5.3 (2019-02-06)
