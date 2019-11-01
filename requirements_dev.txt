@@ -11,4 +11,4 @@ PyYAML==5.1.2
 wheel==0.33.6
 bumpversion==0.5.3
 cryptography==2.8
-pip==19.2.3
+pip==19.3.1
