@@ -8,7 +8,7 @@ Sphinx==2.4.3
 
 # build / deploy
 PyYAML==5.3
-wheel==0.33.6
+wheel==0.34.2
 bumpversion==0.5.3
 cryptography==2.7
 pip==19.2.3
