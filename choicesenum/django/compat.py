@@ -15,8 +15,13 @@ class Creator(DeferredAttribute):
         self.field = field
         if django.VERSION < (2, 1):  # pragma: no cover (Django < 2.1 compat)
             super(Creator, self).__init__(field.attname, model)
-        else:  # pragma: no cover
+        elif django.VERSION < (3, 0):
             super(Creator, self).__init__(field.attname)
+        else:  # pragma: no cover
+            super(Creator, self).__init__(field)
 
     def __set__(self, obj, value):
-        obj.__dict__[self.field_name] = self.field.to_python(value)
+        if hasattr(self, 'field_name'):
+            obj.__dict__[self.field_name] = self.field.to_python(value)
+        else:
+            obj.__dict__[self.field.attname] = self.field.to_python(value)
