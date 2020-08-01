@@ -13,6 +13,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'enum34;python_version<"3.4"',
+    'six',
 ]
 
 setup_requirements = []

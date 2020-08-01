@@ -5,11 +5,12 @@ from __future__ import absolute_import, unicode_literals
 from django.core import checks
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.utils import six
 try:
     from django.utils.module_loading import import_string
 except ImportError:  # pragma: no cover, Django 1.6 compat
     from django.utils.module_loading import import_by_path as import_string
+
+import six
 
 from .compat import Creator
 from ..enums import ChoicesEnum
