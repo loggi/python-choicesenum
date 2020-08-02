@@ -2,8 +2,8 @@
 History
 -------
 
-0.7.0 (not released)
---------------------
+0.7.0 (2020-08-02)
+------------------
 
 * Add support Django 3.0 (tks @klette).
 * Drop support for Python 3.4.
