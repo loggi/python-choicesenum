@@ -1,5 +1,5 @@
 Welcome to Choices Enum's documentation!
-======================================
+========================================
 
 Contents:
 
@@ -8,8 +8,6 @@ Contents:
 
    readme
    installation
-   usage
-   modules
    contributing
    authors
    history
