@@ -7,6 +7,7 @@ History
 
 * Add support Django 3.0 (tks @klette).
 * Drop support for Python 3.4.
+* Fix issue when using Django EnumIntegerField on Admin.
 
 
 0.6.0 (2019-09-05)
@@ -14,7 +15,6 @@ History
 
 * Adding schematics contrib type ChoicesEnumType.
 * Drop support for Django 1.6, 1.7, 1.8.
-
 
 
 0.5.3 (2019-02-06)

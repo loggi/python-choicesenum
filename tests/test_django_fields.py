@@ -242,6 +242,17 @@ def test_integer_field_should_allow_filters():
     assert instance.pk == instance2.pk
 
 
+def test_field_to_python_should_allow_inherited_conversion():
+    # given
+    from tests.app.models import User
+
+    # when
+    user_status = User._meta.get_field('status').to_python('1')
+
+    # then
+    assert user_status.is_pending
+
+
 @pytest.mark.django_db
 def test_handle_select_related_with_no_none_enum_value():
     # given

@@ -86,7 +86,10 @@ class EnumFieldMixin(object):
         setattr(cls, name, Creator(self, cls))
 
     def to_python(self, value):
-        return self.enum(value)
+        if isinstance(value, self.enum):
+            return value
+        cleaned_value = super(EnumFieldMixin, self).to_python(value)
+        return self.enum(cleaned_value)
 
     def from_db_value(self, value, *args, **kwargs):
         try:
