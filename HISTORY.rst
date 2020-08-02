@@ -2,6 +2,13 @@
 History
 -------
 
+0.7.0 (not released)
+--------------------
+
+* Add support Django 3.0 (tks @klette).
+* Drop support for Python 3.4.
+
+
 0.6.0 (2019-09-05)
 ------------------
 
