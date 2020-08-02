@@ -65,3 +65,4 @@ target/
 # Editors
 *.sublime-*
 .idea/
+.vscode/
