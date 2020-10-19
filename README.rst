@@ -401,7 +401,7 @@ Usage with Schematics_ Enums:
     from choicesenum import ChoicesEnum
     from choicesenum.schematics.types import ChoicesEnumType
 
-    class HttpStatus(ChoicesEnum):
+    class HttpStatuses(ChoicesEnum):
         OK = 200
         BAD_REQUEST = 400
         UNAUTHORIZED = 401
