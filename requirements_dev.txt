@@ -1,7 +1,7 @@
 # test
 -r requirements_test.txt
 Django==3.1.2
-tox==3.14.0
+tox==3.20.1
 
 # docs
 Sphinx==3.0.4
