@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.core import checks
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 try:
     from django.utils.module_loading import import_string
 except ImportError:  # pragma: no cover, Django 1.6 compat
