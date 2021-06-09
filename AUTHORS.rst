@@ -16,6 +16,7 @@ Contributors
 * Tomas Fagerbekk <tomas.a.fagerbekk@gmail.com>
 * Lefteris Karapetsas <lefteris@refu.co>
 * Maiky Guanaes <maiky.guanaes@gmail.com>
+* Gustavo de Paula <gustavodepaula@disroot.org>
 
 
 Tools
