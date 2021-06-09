@@ -38,8 +38,8 @@ Features
 * ``ChoicesEnum`` can define labels to be used in `choices` fields.
 * Django fields included:  ``EnumCharField`` and ``EnumIntegerField``.
 * All ``ChoicesEnum`` types can be compared against their primitive values directly.
-* Support (tested) for Python 2.7, 3.5, 3.6, 3.7 and 3.8.
-* Support (tested) for Django 1.9, 1.10, 1.11, 2.0, 2.1, 2.2 and 3.0.
+* Support (tested) for Python 3.5, 3.6, 3.7 and 3.8.
+* Support (tested) for Django 1.11, 2.0, 2.1, 2.2 and 3.0.
 
 --------------
 Usage examples
@@ -186,8 +186,8 @@ The enum type is iterable:
     Color('#00f').BLUE
 
 
-Order is guaranteed only for py3.4+. For fixed order in py2.7, you
-can implement a magic attribute ``_order_``:
+Order is guaranteed only for py3.4+. If you're using an older version of the library with py2.7, for
+fixed order, you can implement a magic attribute ``_order_``:
 
 .. code:: python
 
