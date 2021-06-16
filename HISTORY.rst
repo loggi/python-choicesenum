@@ -3,7 +3,7 @@ History
 -------
 
 0.8.0 (not released yet)
-------------------
+------------------------
 
 * Drop support for Python 2.7.
 * Drop support for Django 1.9 and 1.10.
@@ -17,6 +17,7 @@ History
 * Drop support for Python 3.4.
 * Fix issue when using Django EnumIntegerField on Admin.
 * Last Version to support Python 2.7.
+* Last Version to support Django 1.9 and 1.10.
 
 
 0.6.0 (2019-09-05)
