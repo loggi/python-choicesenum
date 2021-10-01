@@ -5,6 +5,6 @@ pytest-cov==2.12.1
 pytest-django==4.4.0
 pytest-watch==4.2.0
 pytest-sugar==0.9.4
-schematics==2.1.0
+schematics==2.1.1
 
 
