@@ -1,6 +1,6 @@
 # test
 -r requirements_test.txt
-Django==2.2.13
+Django==4.0.4
 tox==3.14.0
 
 # docs
