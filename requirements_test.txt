@@ -2,7 +2,7 @@
 mock==5.0.1
 pytest==7.2.1
 pytest-cov==4.0.0
-pytest-django==3.4.8
+pytest-django==4.5.2
 pytest-watch==4.2.0
 pytest-sugar==0.9.4
 schematics==2.1.0
