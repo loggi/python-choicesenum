@@ -10,5 +10,5 @@ Sphinx==7.0.1
 PyYAML==6.0
 wheel==0.40.0
 bumpversion==0.6.0
-cryptography==3.0
+cryptography==41.0.1
 pip==20.2
