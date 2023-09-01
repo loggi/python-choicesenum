@@ -4,7 +4,7 @@ Django==4.2.4
 tox==4.11.0
 
 # docs
-Sphinx==3.0.4
+Sphinx==7.2.5
 
 # build / deploy
 PyYAML==5.3.1
