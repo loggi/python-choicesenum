@@ -1,6 +1,6 @@
 # test
 mock==5.1.0
-pytest==4.6.9
+pytest==8.0.0
 pytest-cov==2.7.1
 pytest-django==3.4.8
 pytest-watch==4.2.0
