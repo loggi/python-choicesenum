@@ -1,7 +1,7 @@
 # test
 mock==5.1.0
 pytest==8.0.2
-pytest-cov==2.7.1
+pytest-cov==4.1.0
 pytest-django==3.4.8
 pytest-watch==4.2.0
 pytest-sugar==0.9.4
