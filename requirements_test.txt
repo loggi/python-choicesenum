@@ -1,10 +1,10 @@
 # test
-mock==3.0.5
-pytest==4.6.9
-pytest-cov==2.7.1
-pytest-django==3.4.8
+mock==5.1.0
+pytest==8.0.2
+pytest-cov==4.1.0
+pytest-django==4.8.0
 pytest-watch==4.2.0
-pytest-sugar==0.9.4
-schematics==2.1.0
+pytest-sugar==1.0.0
+schematics==2.1.1
 
 

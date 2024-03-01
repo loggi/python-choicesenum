@@ -1,14 +1,14 @@
 # test
 -r requirements_test.txt
-Django==2.2.13
-tox==3.14.0
+Django==5.0.2
+tox==4.13.0
 
 # docs
-Sphinx==3.0.4
+Sphinx==7.2.6
 
 # build / deploy
-PyYAML==5.3.1
-wheel==0.34.2
+PyYAML==6.0.1
+wheel==0.42.0
 bumpversion==0.6.0
-cryptography==3.0
-pip==20.2
+cryptography==42.0.5
+pip==24.0
